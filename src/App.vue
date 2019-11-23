@@ -10,7 +10,6 @@ import ObtenerProductos from "@/services/Cafeteria/ObtenerProductos";
 
 export default {
   name: "App",
-
   components: {},
   methods: {
     async hola() {
