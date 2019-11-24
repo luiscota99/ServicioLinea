@@ -24,7 +24,11 @@
                   id="name"
                   prepend-icon="mdi-alphabetical"
                   name="name"
-                  :label="nameErr ? 'Datos Incorretcos' : 'Nombre completo del propietario'"
+                  :label="
+                    nameErr
+                      ? 'Datos Incorretcos'
+                      : 'Nombre completo del propietario'
+                  "
                   v-model="name"
                   :error="nameErr"
                 ></v-text-field>
@@ -34,7 +38,9 @@
                   id="cvv"
                   prepend-icon="mdi-barcode"
                   name="cvv"
-                  :label="cvvErr ? 'Datos Incorrectos' : 'CVV (No. de Seguridad)'"
+                  :label="
+                    cvvErr ? 'Datos Incorrectos' : 'CVV (No. de Seguridad)'
+                  "
                   v-model="cvv"
                   :error="cvvErr"
                 ></v-text-field>
@@ -61,15 +67,16 @@ export default {
     err: "",
     userErr: false,
     nameErr: false,
-    csvErr: false
+    cvvErr: false
   }),
 
   methods: {
-    async login() {},
+    async login() {
+      this.$swal("Hello Vue world!!!");
+    },
     registrar() {}
   }
 };
 </script>
 
-<style>
-</style>
+<style></style>

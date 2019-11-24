@@ -1,9 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <v-content>
-      <CardData />
-    </v-content>
+    <v-content> </v-content>
   </div>
 </template>
 
@@ -11,14 +9,12 @@
 // @ is an alias to /src
 import Navbar from "@/components/Navbar.vue";
 import Product from "@/components/Product.vue";
-import CardData from "@/components/CardData.vue";
 
 export default {
   name: "home",
   components: {
     Navbar,
-    Product,
-    CardData
+    Product
   },
   data: () => ({
     drawer: null
