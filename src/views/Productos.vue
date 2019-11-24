@@ -2,6 +2,7 @@
   <div>
     <Navbar />
     <v-content>
+      <Product />
     </v-content>
   </div>
 </template>
