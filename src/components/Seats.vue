@@ -40,9 +40,7 @@
       </ol>
     </div>
     <v-card-actions>
-      <v-btn @click="continuar()" class="mx-auto" rounded color="primary"
-        >continuar</v-btn
-      >
+      <v-btn @click="continuar()" class="mx-auto" rounded color="primary">continuar</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -164,22 +162,6 @@ export default {
         { ocupado: false, nombre: "12G" },
         { ocupado: false, nombre: "13G" },
         { ocupado: false, nombre: "14G" }
-      ],
-      [
-        { ocupado: false, nombre: "1H" },
-        { ocupado: false, nombre: "2H" },
-        { ocupado: false, nombre: "3H" },
-        { ocupado: false, nombre: "4H" },
-        { ocupado: false, nombre: "5H" },
-        { ocupado: false, nombre: "6H" },
-        { ocupado: false, nombre: "7H" },
-        { ocupado: false, nombre: "8H" },
-        { ocupado: false, nombre: "9H" },
-        { ocupado: false, nombre: "10H" },
-        { ocupado: false, nombre: "11H" },
-        { ocupado: false, nombre: "12H" },
-        { ocupado: false, nombre: "13H" },
-        { ocupado: false, nombre: "14H" }
       ]
     ],
     selectedSeats: []
