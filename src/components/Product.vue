@@ -1,26 +1,29 @@
 <template>
-  <v-card max-width="400" class="mx-auto"> Hola </v-card>
+<div class="row">
+  <v-card  max-width="400" class="mx-auto" v-for="producto in this.productos" :key="producto._id"> <div >{{producto.nombre}} </div> </v-card>
+</div>
 </template>
 
 <script>
+import ObtenerProductos from "@/services/Cafeteria/ObtenerProductos";
+
 export default {
   name: "Product",
 
   data: () => ({
-    items: [
-      {
-        color: "#1F7087",
-        src: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-        title: "Supermodel",
-        artist: "Foster the People"
-      },
-      {
-        color: "#952175",
-        src: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-        title: "Halcyon Days",
-        artist: "Ellie Goulding"
-      }
-    ]
-  })
+    productos :[], 
+  }),
+    
+  methods: {
+   async getProductos(){
+      let response = await ObtenerProductos.getProductos();
+      this.productos = response.data;
+      console.log("Los productos disponibles son: ");
+      console.log(this.productos);
+    }
+  },
+  beforeMount(){
+    this.getProductos();
+  }
 };
 </script>

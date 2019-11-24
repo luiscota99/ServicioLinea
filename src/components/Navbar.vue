@@ -1,6 +1,5 @@
 <template>
-  <div id="app">
-    <v-app id="inspire">
+<nav>
       <v-navigation-drawer v-model="drawer" app>
         <v-list dense>
           <v-list-item @click="hola()">
@@ -11,7 +10,7 @@
               <v-list-item-title>Corte de Ventas</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item>
+          <v-list-item to="/productos">
             <v-list-item-action>
               <v-icon>mdi-contact-mail</v-icon>
             </v-list-item-action>
@@ -27,15 +26,7 @@
         <v-toolbar-title>Application</v-toolbar-title>
       </v-app-bar>
 
-      <v-content>
-        <v-container fluid fill-height>
-          <v-layout align-center justify-center>
-            <v-flex text-xs-center></v-flex>
-          </v-layout>
-        </v-container>
-      </v-content>
-    </v-app>
-  </div>
+</nav>
 </template>
 
 <script>
@@ -45,7 +36,7 @@ import ObtenerProductos from "@/services/Cafeteria/ObtenerProductos";
 import EnviarPedido from "@/services/ServicioSalas/EnviarPedido";
 
 export default {
-  name: "HelloWorld",
+  name: "Navbar",
 
   methods: {
     async hola() {
