@@ -8,7 +8,6 @@ export default new Vuex.Store({
     carrito: []
   },
   getters: {
-    // Here we will create a getter
     getProductos: state => {
       return state.carrito;
     },
@@ -24,10 +23,11 @@ export default new Vuex.Store({
   actions: {
     addProduct(context, item) {
       if (
-        this.state.carrito.filter(producto => producto.name == item.name).length > 0
+        this.state.carrito.filter(producto => producto.nombre == item.nombre)
+          .length > 0
       ) {
         this.state.carrito = this.state.carrito.filter(
-          producto => producto.name !== item.name
+          producto => producto.nombre !== item.nombre
         );
         context.commit("AGREGARPRODUCTOS", item);
       } else {
