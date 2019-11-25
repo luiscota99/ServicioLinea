@@ -1,32 +1,31 @@
 <template>
-<nav>
-      <v-navigation-drawer v-model="drawer" app>
-        <v-list dense>
-          <v-list-item @click="hola()">
-            <v-list-item-action>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Corte de Ventas</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item to="/productos">
-            <v-list-item-action>
-              <v-icon>mdi-contact-mail</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Obtener Productos</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-navigation-drawer>
+  <nav>
+    <v-navigation-drawer v-model="drawer" app>
+      <v-list dense>
+        <v-list-item @click="hola4()">
+          <v-list-item-action>
+            <v-icon>mdi-home</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Corte de Ventas</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/productos">
+          <v-list-item-action>
+            <v-icon>mdi-contact-mail</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Obtener Productos</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
 
-      <v-app-bar app color="indigo" dark>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-toolbar-title>Application</v-toolbar-title>
-      </v-app-bar>
-
-</nav>
+    <v-app-bar app color="indigo" dark>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>Application</v-toolbar-title>
+    </v-app-bar>
+  </nav>
 </template>
 
 <script>
@@ -34,6 +33,7 @@ import SolicitarTransferencia from "@/services/Banco/SolicitarTransferencia";
 import EnviarVentas from "@/services/Finanzas/EnviarVentas";
 import ObtenerProductos from "@/services/Cafeteria/ObtenerProductos";
 import EnviarPedido from "@/services/ServicioSalas/EnviarPedido";
+import VentaService from "@/services/BackEnd/VentaService";
 
 export default {
   name: "Navbar",
@@ -110,6 +110,11 @@ export default {
     async hola3() {
       let response = await EnviarPedido.postPedido();
       console.log("Los productos disponibles son: ");
+      console.log(response.data);
+    },
+    async hola4() {
+      let response = await VentaService.getVentas();
+      console.log("Ventas: ");
       console.log(response.data);
     }
   },
