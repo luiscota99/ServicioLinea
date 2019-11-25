@@ -27,7 +27,7 @@
       <v-spacer></v-spacer>
       <v-badge color="red" overlap class="align-self-center">
         <template v-slot:badge>
-          <span v-if="cuantity > 0">{{cuantity}}</span>
+          <span v-if="getProductos > 0">{{getProductos}}</span>
         </template>
         <v-btn title="Proceder con la compra" fab dark small color="primary" @click="compra()">
           <v-icon dark>mdi-cart</v-icon>
@@ -46,6 +46,11 @@ import VentaService from "@/services/BackEnd/VentaService";
 
 export default {
   name: "Navbar",
+    computed: {
+    getProductos() {
+      return this.$store.getters.getProductosCount;
+    }
+  },
 
   methods: {
     compra() {
