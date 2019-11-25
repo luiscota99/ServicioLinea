@@ -24,6 +24,15 @@
     <v-app-bar app color="indigo" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Application</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-badge color="red" overlap class="align-self-center">
+        <template v-slot:badge>
+          <span v-if="cuantity > 0">{{cuantity}}</span>
+        </template>
+        <v-btn title="Proceder con la compra" fab dark small color="primary" @click="compra()">
+          <v-icon dark>mdi-cart</v-icon>
+        </v-btn>
+      </v-badge>
     </v-app-bar>
   </nav>
 </template>
@@ -39,6 +48,10 @@ export default {
   name: "Navbar",
 
   methods: {
+    compra() {
+      this.$swal("Hello Vue world!!!");
+    },
+
     async hola() {
       let data = {
         tarjeta_origen: "4050",
@@ -120,7 +133,8 @@ export default {
   },
 
   data: () => ({
-    drawer: null
+    drawer: null,
+    cuantity: 0
   })
 };
 </script>
