@@ -28,7 +28,7 @@
           <v-row no-gutters>
             <v-col sm="8" class="caption">
               Cantidad:
-              <span class="ml-2">{{ quantity }}</span>
+              <span class="ml-2">{{ producto.quantity }}</span>
             </v-col>
 
             <v-col sm="4" class="text-right">
@@ -53,49 +53,44 @@ export default {
   data: () => ({}),
   methods: {
     async agregarCantidad() {
-      this.quantity++;
+      this.producto.quantity++;
       if (this.view == "carrito") {
         let item = {
           nombre: this.producto.nombre,
           amount: this.producto.amount,
-          quantity: this.quantity
+          quantity: this.producto.quantity
         };
         await this.removeLocalStorage(item);
         await this.addLocalStorage(item);
         await this.updateTotal();
-
       }
     },
     async restartCantidad() {
-      if (this.quantity > 0) {
-        this.quantity--;
+      if (this.producto.quantity > 0) {
+        this.producto.quantity--;
       }
       if (this.view == "carrito") {
         let item = {
           nombre: this.producto.nombre,
           amount: this.producto.amount,
-          quantity: this.quantity
+          quantity: this.producto.quantity
         };
-        this.$store.dispatch("removeProduct", item);
-          await this.updateTotal();
-
-        if (this.quantity != 0) {
-          this.$store.dispatch("addProduct", item);
-          await this.updateTotal();
-
+        await this.removeLocalStorage(item);
+        if (this.producto.quantity != 0) {
+          await this.addLocalStorage(item);
         }
+        await this.updateTotal();
       }
     },
     async addProduct() {
       let item = {
         nombre: this.producto.nombre,
         amount: this.producto.amount,
-        quantity: this.quantity
+        quantity: this.producto.quantity
       };
       if (this.view == "productos") {
-        if (this.quantity > 0) {
-          await this.addLocalStorage(item);
-
+        if (this.producto.quantity > 0) {
+          this.$store.dispatch("addProduct", item);
         }
       } else {
         await this.removeLocalStorage(item);
@@ -109,20 +104,23 @@ export default {
     async removeLocalStorage(item) {
       this.$store.dispatch("removeProduct", item);
     },
-    async updateTotal(){
-      let carrito = JSON.parse(localStorage.getItem("carrito"));
-          let newtotal = 0;
-          carrito.forEach(producto => {
-            newtotal += Number(producto.quantity) * Number(producto.amount);
-          });
-          this.$emit("update-total", newtotal);
-    },
+    async updateTotal() {
+      let venta = JSON.parse(localStorage.getItem("venta"));
+      let newtotal = 0;
+      if (venta.productos) {
+        venta.productos.forEach(producto => {
+          newtotal += Number(producto.quantity) * Number(producto.amount);
+        });
+      } else {
+        newtotal = 0;
+      }
+      this.$emit("update-total", newtotal);
+    }
   },
   props: {
     producto: Object,
     image: Boolean,
-    quantity: Number,
-    view: String,
+    view: String
   }
 };
 </script>

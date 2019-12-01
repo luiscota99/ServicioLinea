@@ -180,7 +180,6 @@ export default {
     },
 
     continuar() {
-      console.log(this.selectedSeats);
     }
   }
 };

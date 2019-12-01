@@ -17,7 +17,6 @@
             v-for="(producto, index) in busqueda"
             :producto="producto"
             :image="true"
-            :quantity="0"
             :key="index"
             :view="'productos'"
           />
@@ -49,6 +48,9 @@ export default {
     async getProductos() {
       let response = await ObtenerProductos.getProductos();
       this.productos = response.data;
+      this.productos.forEach(producto => {
+        producto.quantity = 0;
+      });
       this.busqueda = Object.assign([], this.productos);
     },
     buscar(str) {
