@@ -30,7 +30,7 @@ export default new Vuex.Store({
       state.venta.productos.push(item);
     },
     AGREGARCARRITO(state, obj) {
-      state.venta = Object.assign([], obj);
+      state.venta = Object.assign({}, obj);
     }
   },
   actions: {
@@ -63,6 +63,7 @@ export default new Vuex.Store({
         total += Number(producto.quantity) * Number(producto.amount);
       });
       this.state.venta.total = total;
+      //console.log(this.state.venta.productos.length);
       localStorage.setItem("venta", JSON.stringify(this.state.venta));
     },
 
