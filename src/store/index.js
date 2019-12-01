@@ -30,7 +30,7 @@ export default new Vuex.Store({
       state.venta.productos.push(item);
     },
     AGREGARCARRITO(state, obj) {
-      state.venta.productos = Object.assign([], obj);
+      state.venta = Object.assign([], obj);
     }
   },
   actions: {
