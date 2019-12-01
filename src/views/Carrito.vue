@@ -24,6 +24,7 @@
             :image="true"
             :key="index"
             :quantity="producto.quantity"
+            :view="'carrito'"
           />
         </template>
       </v-layout>

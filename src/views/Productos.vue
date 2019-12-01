@@ -19,6 +19,7 @@
             :image="true"
             :quantity="0"
             :key="index"
+            :view="'productos'"
           />
         </template>
       </v-layout>

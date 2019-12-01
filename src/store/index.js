@@ -37,8 +37,14 @@ export default new Vuex.Store({
         context.commit("AGREGARPRODUCTOS", item);
       }
       localStorage.setItem("carrito", JSON.stringify(this.state.carrito));
-      console.log(JSON.parse(localStorage.getItem("carrito")));
     },
+    removeProduct(context, item) {
+      this.state.carrito = this.state.carrito.filter(
+        producto => producto.nombre !== item.nombre
+      );
+      localStorage.setItem("carrito", JSON.stringify(this.state.carrito));
+    },
+    
     setCarrito(context, obj) {
       context.commit("AGREGARCARRITO", obj);
     }
