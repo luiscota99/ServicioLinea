@@ -58,7 +58,8 @@ export default {
         let item = {
           nombre: this.producto.nombre,
           amount: this.producto.amount,
-          quantity: this.producto.quantity
+          quantity: this.producto.quantity,
+          idProducto: this.producto.productId
         };
         await this.removeLocalStorage(item);
         await this.addLocalStorage(item);
@@ -73,7 +74,8 @@ export default {
         let item = {
           nombre: this.producto.nombre,
           amount: this.producto.amount,
-          quantity: this.producto.quantity
+          quantity: this.producto.quantity,
+          idProducto: this.producto.productId
         };
         await this.removeLocalStorage(item);
         if (this.producto.quantity != 0) {
@@ -86,7 +88,8 @@ export default {
       let item = {
         nombre: this.producto.nombre,
         amount: this.producto.amount,
-        quantity: this.producto.quantity
+          quantity: this.producto.quantity,
+          idProducto: this.producto.productId
       };
       if (this.view == "productos") {
         if (this.producto.quantity > 0) {
