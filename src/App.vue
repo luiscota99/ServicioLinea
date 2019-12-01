@@ -60,10 +60,10 @@ export default {
       console.log(response.data);*/
     },
     checkLoacalStorge() {
-      if (localStorage.getItem("carrito")) {
+      if (localStorage.getItem("venta")) {
         this.$store.dispatch(
           "setCarrito",
-          JSON.parse(localStorage.getItem("carrito"))
+          JSON.parse(localStorage.getItem("venta"))
         );
       }
     }

@@ -23,7 +23,6 @@
             :producto="producto"
             :image="true"
             :key="index"
-            :quantity="producto.quantity"
             :view="'carrito'"
           />
         </template>
@@ -55,13 +54,12 @@ export default {
   methods: {
     getProductos() {
       let response = [];
-      if (localStorage.getItem("carrito")) {
-        response = JSON.parse(localStorage.getItem("carrito"));
+      if (localStorage.getItem("venta")) {
+        response = JSON.parse(localStorage.getItem("venta"));
       }
-      this.productos = response;
-      this.productos.forEach(producto => {
-        this.total += Number(producto.quantity) * Number(producto.amount);
-      });
+      console.log(response.total);
+      this.total = response.total;
+      this.productos = response.productos;
       this.busqueda = Object.assign([], this.productos);
     },
     buscar(str) {

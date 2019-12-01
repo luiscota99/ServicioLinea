@@ -2,11 +2,7 @@
   <v-flex xs3 pa-1>
     <v-hover>
       <v-card class="mx-auto" color="gray lighten-4">
-        <v-img
-          v-if="image"
-          src="https://picsum.photos/id/11/500/300"
-          :aspect-ratio="16 / 9"
-        ></v-img>
+        <v-img v-if="image" src="https://picsum.photos/id/11/500/300" :aspect-ratio="16 / 9"></v-img>
 
         <v-card-text class="pt-4" style="position: relative;">
           <v-btn
@@ -28,7 +24,7 @@
           <v-row no-gutters>
             <v-col sm="8" class="caption">
               Cantidad:
-              <span class="ml-2">{{ quantity }}</span>
+              <span class="ml-2">{{ producto.quantity }}</span>
             </v-col>
 
             <v-col sm="4" class="text-right">
@@ -53,29 +49,29 @@ export default {
   data: () => ({}),
   methods: {
     async agregarCantidad() {
-      this.quantity++;
+      this.producto.quantity++;
       if (this.view == "carrito") {
         let item = {
           nombre: this.producto.nombre,
           amount: this.producto.amount,
-          quantity: this.quantity
+          quantity: this.producto.quantity
         };
         await this.removeLocalStorage(item);
         await this.addLocalStorage(item);
       }
     },
     restartCantidad() {
-      if (this.quantity > 0) {
-        this.quantity--;
+      if (this.producto.quantity > 0) {
+        this.producto.quantity--;
       }
       if (this.view == "carrito") {
         let item = {
           nombre: this.producto.nombre,
           amount: this.producto.amount,
-          quantity: this.quantity
+          quantity: this.producto.quantity
         };
         this.$store.dispatch("removeProduct", item);
-        if (this.quantity != 0) {
+        if (this.producto.quantity != 0) {
           this.$store.dispatch("addProduct", item);
         }
       }
@@ -84,16 +80,15 @@ export default {
       let item = {
         nombre: this.producto.nombre,
         amount: this.producto.amount,
-        quantity: this.quantity
+        quantity: this.producto.quantity
       };
       if (this.view == "productos") {
-        if (this.quantity > 0) {
+        if (this.producto.quantity > 0) {
           this.$store.dispatch("addProduct", item);
         }
       } else {
         this.$store.dispatch("removeProduct", item);
         this.$el.parentNode.removeChild(this.$el);
-
       }
     },
     async addLocalStorage(item) {
@@ -106,7 +101,6 @@ export default {
   props: {
     producto: Object,
     image: Boolean,
-    quantity: Number,
     view: String
   }
 };
