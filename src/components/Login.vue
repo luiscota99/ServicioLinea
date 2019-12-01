@@ -35,8 +35,8 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn outlined color="indigo" dark @click="registrar">Saltar</v-btn>
-              <v-btn color="indigo" dark @click="login">Acceder</v-btn>
+              <v-btn outlined color="primary" dark @click="saltar()">Saltar</v-btn>
+              <v-btn color="primary" dark @click="saltar()">Acceder</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -58,7 +58,9 @@ export default {
 
   methods: {
     async login() {},
-    registrar() {}
+    saltar() {
+      this.$router.push("pago");
+    }
   }
 };
 </script>

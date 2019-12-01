@@ -58,9 +58,19 @@ export default {
       };
       /*let response = await EnviarVentas.addVentas(data);
       console.log(response.data);*/
+    },
+    checkLoacalStorge() {
+      if (localStorage.getItem("carrito")) {
+        this.$store.dispatch(
+          "setCarrito",
+          JSON.parse(localStorage.getItem("carrito"))
+        );
+      }
     }
   },
-
+  beforeMount() {
+    this.checkLoacalStorge();
+  },
   data: () => ({
     //
   })

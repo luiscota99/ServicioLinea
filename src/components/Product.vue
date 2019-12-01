@@ -45,9 +45,7 @@
 export default {
   name: "Product",
 
-  data: () => ({
-    quantity: 0
-  }),
+  data: () => ({}),
   methods: {
     agregarCantidad() {
       this.quantity++;
@@ -70,7 +68,8 @@ export default {
   },
   props: {
     producto: Object,
-    image: Boolean
+    image: Boolean,
+    quantity: Number
   }
 };
 </script>

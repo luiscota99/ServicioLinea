@@ -2,7 +2,7 @@
   <div>
     <Navbar />
     <v-content>
-      <CardData />
+      <Login />
     </v-content>
   </div>
 </template>
@@ -10,15 +10,13 @@
 <script>
 // @ is an alias to /src
 import Navbar from "@/components/Navbar.vue";
-import Product from "@/components/Product.vue";
-import CardData from "@/components/CardData.vue";
+import Login from "@/components/Login.vue";
 
 export default {
-  name: "home",
+  name: "iniciarSesion",
   components: {
     Navbar,
-    Product,
-    CardData
+    Login
   },
   data: () => ({
     drawer: null

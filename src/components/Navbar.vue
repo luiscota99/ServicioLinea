@@ -2,7 +2,7 @@
   <nav>
     <v-navigation-drawer v-model="drawer" app>
       <v-list dense>
-        <v-list-item @click="hola4()">
+        <v-list-item @click="hola3()">
           <v-list-item-action>
             <v-icon>mdi-home</v-icon>
           </v-list-item-action>
@@ -15,7 +15,7 @@
             <v-icon>mdi-contact-mail</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Obtener Productos</v-list-item-title>
+            <v-list-item-title>Comprar Productos</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -46,7 +46,7 @@ import VentaService from "@/services/BackEnd/VentaService";
 
 export default {
   name: "Navbar",
-    computed: {
+  computed: {
     getProductos() {
       return this.$store.getters.getProductosCount;
     }
@@ -54,7 +54,7 @@ export default {
 
   methods: {
     compra() {
-      this.$swal("Hello Vue world!!!");
+      this.$router.push("carrito");
     },
 
     async hola() {
@@ -125,9 +125,30 @@ export default {
       console.log(response.data);
     },
 
-    async hola3() {
-      let response = await EnviarPedido.postPedido();
-      console.log("Los productos disponibles son: ");
+    async hola5() {
+      let data = {
+        fecha: "2019-11-04",
+        nombre_cliente: "Omar",
+        observaciones: "Ninguna",
+        sala: "a2",
+        asiento: "h22",
+        hora: "10:00:00",
+        estado: "Entregado",
+        productos: [
+          {
+            producto_id: 1,
+            nombre: "Coca cola",
+            cantidad: 4
+          },
+          {
+            pedido_id: 2,
+            nombre: "Roco",
+            cantidad: 1
+          }
+        ]
+      };
+      let response = await EnviarPedido.postPedido(data);
+      console.log("el pedido es: ");
       console.log(response.data);
     },
     async hola4() {

@@ -18,6 +18,9 @@ export default new Vuex.Store({
   mutations: {
     AGREGARPRODUCTOS(state, item) {
       state.carrito.push(item);
+    },
+    AGREGARCARRITO(state, obj) {
+      state.carrito = Object.assign([], obj);
     }
   },
   actions: {
@@ -33,6 +36,11 @@ export default new Vuex.Store({
       } else {
         context.commit("AGREGARPRODUCTOS", item);
       }
+      localStorage.setItem("carrito", JSON.stringify(this.state.carrito));
+      console.log(JSON.parse(localStorage.getItem("carrito")));
+    },
+    setCarrito(context, obj) {
+      context.commit("AGREGARCARRITO", obj);
     }
   },
   modules: {}

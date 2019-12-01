@@ -5,10 +5,15 @@
       <v-card class="mx-5 my-5">
         <v-form>
           <div class="row">
-            <v-text-field class="mx-5" v-model="str" label="¿Que desea?"></v-text-field>
+            <v-text-field class="mx-5" v-model="str" label="Nombre del producto"></v-text-field>
             <v-btn class="mr-5 my-5" color="primary" @click="buscar(str)">buscar</v-btn>
             <v-btn class="mr-5 my-5" outlined color="primary" @click="todo()">mostrar todo</v-btn>
           </div>
+          <div class="row">
+            <v-btn class="mx-5 mb-5" color="success" @click="comprar()">comprar</v-btn>
+            <h3 class="mt-1 mb-5">Total a pagar: {{total}} $</h3>
+          </div>
+          <v-textarea class="mx-3" v-model="comentarios" name="comentarios" label="Comentarios"></v-textarea>
         </v-form>
       </v-card>
       <v-layout row wrap class="mx-5">
@@ -17,8 +22,8 @@
             v-for="(producto, index) in busqueda"
             :producto="producto"
             :image="true"
-            :quantity="0"
             :key="index"
+            :quantity="producto.quantity"
           />
         </template>
       </v-layout>
@@ -33,7 +38,7 @@ import Navbar from "@/components/Navbar.vue";
 import Product from "@/components/Product.vue";
 
 export default {
-  name: "productos",
+  name: "carrito",
   components: {
     Navbar,
     Product
@@ -42,12 +47,20 @@ export default {
     drawer: null,
     productos: [],
     busqueda: [],
-    str: ""
+    str: "",
+    comentarios: "",
+    total: 0
   }),
   methods: {
-    async getProductos() {
-      let response = await ObtenerProductos.getProductos();
-      this.productos = response.data;
+    getProductos() {
+      let response = [];
+      if (localStorage.getItem("carrito")) {
+        response = JSON.parse(localStorage.getItem("carrito"));
+      }
+      this.productos = response;
+      this.productos.forEach(producto => {
+        this.total += Number(producto.quantity) * Number(producto.amount);
+      });
       this.busqueda = Object.assign([], this.productos);
     },
     buscar(str) {
@@ -60,6 +73,9 @@ export default {
     },
     todo() {
       this.busqueda = Object.assign([], this.productos);
+    },
+    comprar() {
+      this.$router.push("iniciarSesion");
     }
   },
   beforeMount() {

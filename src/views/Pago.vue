@@ -10,14 +10,12 @@
 <script>
 // @ is an alias to /src
 import Navbar from "@/components/Navbar.vue";
-import Product from "@/components/Product.vue";
 import CardData from "@/components/CardData.vue";
 
 export default {
-  name: "home",
+  name: "pago",
   components: {
     Navbar,
-    Product,
     CardData
   },
   data: () => ({

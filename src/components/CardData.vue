@@ -12,31 +12,45 @@
                 <v-text-field
                   @keyup.enter="login"
                   color="indigo"
-                  prepend-icon="mdi-counter"
                   name="login"
                   :label="userErr ? err : 'No. de Tarjeta'"
                   v-model="user"
                   :error="userErr"
                 ></v-text-field>
-                <v-text-field
-                  @keyup.enter="login"
-                  color="indigo"
-                  id="name"
-                  prepend-icon="mdi-alphabetical"
-                  name="name"
-                  :label="
-                    nameErr
+                <h3 class="ml-1 mt-3">Fecha de vencimiento:</h3>
+                <div class="row mx-1">
+                  <v-text-field
+                    @keyup.enter="login"
+                    color="indigo"
+                    id="fecha"
+                    name="fecha"
+                    :label="
+                    fechaErr
                       ? 'Datos Incorretcos'
-                      : 'Nombre completo del propietario'
+                      : 'Mes'
                   "
-                  v-model="name"
-                  :error="nameErr"
-                ></v-text-field>
+                    v-model="fecha"
+                    :error="fechaErr"
+                  ></v-text-field>
+                  <h2 class="mx-5 mt-6">/</h2>
+                  <v-text-field
+                    @keyup.enter="login"
+                    color="indigo"
+                    id="fecha"
+                    name="fecha"
+                    :label="
+                    fechaErr
+                      ? 'Datos Incorretcos'
+                      : 'Año'
+                  "
+                    v-model="fecha"
+                    :error="fechaErr"
+                  ></v-text-field>
+                </div>
                 <v-text-field
                   @keyup.enter="login"
                   color="indigo"
                   id="cvv"
-                  prepend-icon="mdi-barcode"
                   name="cvv"
                   :label="
                     cvvErr ? 'Datos Incorrectos' : 'CVV (No. de Seguridad)'
@@ -48,7 +62,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="indigo" dark @click="login">Continuar</v-btn>
+              <v-btn color="success" dark @click="login">Continuar</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -62,12 +76,12 @@ export default {
   data: () => ({
     show: false,
     user: "",
-    name: "",
+    fecha: "",
     cvv: "",
     err: "",
-    userErr: false,
-    nameErr: false,
-    cvvErr: false
+    fechaErr: false,
+    cvvErr: false,
+    userErr: false
   }),
 
   methods: {
