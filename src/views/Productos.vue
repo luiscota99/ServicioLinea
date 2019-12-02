@@ -5,9 +5,17 @@
       <v-card class="mx-5 my-5">
         <v-form>
           <div class="row">
-            <v-text-field class="mx-5" v-model="str" label="¿Que desea?"></v-text-field>
-            <v-btn class="mr-5 my-5" color="primary" @click="buscar(str)">buscar</v-btn>
-            <v-btn class="mr-5 my-5" outlined color="primary" @click="todo()">mostrar todo</v-btn>
+            <v-text-field
+              class="mx-5"
+              v-model="str"
+              label="¿Que desea?"
+            ></v-text-field>
+            <v-btn class="mr-5 my-5" color="primary" @click="buscar(str)"
+              >buscar</v-btn
+            >
+            <v-btn class="mr-5 my-5" outlined color="primary" @click="todo()"
+              >mostrar todo</v-btn
+            >
           </div>
         </v-form>
       </v-card>
@@ -31,7 +39,6 @@
 import ObtenerProductos from "@/services/Cafeteria/ObtenerProductos";
 import Navbar from "@/components/Navbar.vue";
 import Product from "@/components/Product.vue";
-import { log } from "util";
 
 export default {
   name: "productos",
@@ -49,19 +56,18 @@ export default {
     async getProductos() {
       let response = await ObtenerProductos.getProductos();
       this.productos = response.data;
-      let venta = [];
-      if (localStorage.getItem("venta")) {
-        venta = Object.assign(
-          [],
-          JSON.parse(localStorage.getItem("venta")).productos
-        );
-      }
+      let venta = JSON.parse(localStorage.getItem("venta"));
       this.productos.forEach(producto => {
-        producto.quantity = 0;
-        venta.forEach(item => {
-          if (item.idProducto === producto.productId)
-            producto.quantity = item.quantity;
-        });
+        if (venta.productos.length > 0) {
+           let itemVenta = venta.productos.filter(item => item.idProducto == producto.productId);
+           if (itemVenta.length>0) {
+             producto.quantity = itemVenta[0].quantity;
+           }else{
+             producto.quantity = 0;
+           }
+        } else {
+          producto.quantity = 0;
+        }
       });
       this.busqueda = Object.assign([], this.productos);
     },

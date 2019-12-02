@@ -4,9 +4,19 @@
       <v-card class="mx-auto" color="gray lighten-4">
         <v-img
           v-if="image"
-          src="https://picsum.photos/id/11/500/300"
+          contain
+          src="https://images-na.ssl-images-amazon.com/images/I/516Kp8B1gVL._SX466_.jpg"
           :aspect-ratio="16 / 9"
-        ></v-img>
+        >
+        <template v-slot:placeholder>
+        <v-row
+          class="fill-height ma-0"
+          align="center"
+          justify="center"
+        >
+          <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+        </v-row>
+      </template></v-img>
 
         <v-card-text class="pt-4" style="position: relative;">
           <v-btn
