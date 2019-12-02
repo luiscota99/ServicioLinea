@@ -2,7 +2,7 @@
   <nav>
     <v-navigation-drawer v-model="drawer" app>
       <v-list dense>
-        <v-list-item @click="hola3()">
+        <v-list-item @click="hola6()">
           <v-list-item-action>
             <v-icon>mdi-home</v-icon>
           </v-list-item-action>
@@ -12,10 +12,18 @@
         </v-list-item>
         <v-list-item to="/productos">
           <v-list-item-action>
-            <v-icon>mdi-contact-mail</v-icon>
+            <v-icon>mdi-popcorn</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Comprar Productos</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/productos">
+          <v-list-item-action>
+            <v-icon>mdi-ticket</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Funciones Disponibles</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -43,6 +51,8 @@ import EnviarVentas from "@/services/Finanzas/EnviarVentas";
 import ObtenerProductos from "@/services/Cafeteria/ObtenerProductos";
 import EnviarPedido from "@/services/ServicioSalas/EnviarPedido";
 import VentaService from "@/services/BackEnd/VentaService";
+import Asientos from "@/services/Taquilla/Asientos";
+import Peliculas from "@/services/Taquilla/Peliculas";
 
 export default {
   name: "Navbar",
@@ -153,6 +163,11 @@ export default {
     },
     async hola4() {
       let response = await VentaService.getVentas();
+      console.log("Ventas: ");
+      console.log(response.data);
+    },
+    async hola6() {
+      let response = await Asientos.getAsientos();
       console.log("Ventas: ");
       console.log(response.data);
     }

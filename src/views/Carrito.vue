@@ -14,9 +14,9 @@
             <h3 class="mt-1 mb-5">Total a pagar: ${{ total }}</h3>
           </div>
           <div class="row">
-            <v-text-field class="mx-5" label="Nombre del cliente"></v-text-field>
-            <v-text-field class="mr-5" label="Sala"></v-text-field>
-            <v-text-field class="mr-5" label="Asiento"></v-text-field>
+            <v-text-field v-model="venta.nombre_cliente" class="mx-5" label="Nombre del cliente"></v-text-field>
+            <v-text-field v-model="venta.sala" class="mr-5" label="Sala"></v-text-field>
+            <v-text-field v-model="venta.asiento" class="mr-5" label="Asiento"></v-text-field>
             <v-menu
               ref="menu"
               v-model="menu2"
@@ -31,7 +31,7 @@
               <template v-slot:activator="{ on }">
                 <v-text-field
                   class="mr-5"
-                  v-model="time"
+                  v-model="venta.hora"
                   label="Hora a partir para entregar"
                   readonly
                   v-on="on"
@@ -39,13 +39,18 @@
               </template>
               <v-time-picker
                 v-if="menu2"
-                v-model="time"
+                v-model="venta.hora"
                 full-width
-                @click:minute="$refs.menu.save(time)"
+                @click:minute="$refs.menu.save(venta.hora)"
               ></v-time-picker>
             </v-menu>
           </div>
-          <v-textarea class="mx-3" v-model="comentarios" name="comentarios" label="Comentarios"></v-textarea>
+          <v-textarea
+            class="mx-3"
+            v-model="venta.observaciones"
+            name="observaciones"
+            label="Observaciones"
+          ></v-textarea>
         </v-form>
       </v-card>
       <v-layout row wrap class="mx-5">
@@ -84,19 +89,19 @@ export default {
     comentarios: "",
     total: 0,
     time: null,
-    menu2: false
+    menu2: false,
+    venta: {}
   }),
   methods: {
     updateTotal(total) {
       this.total = total;
     },
     getProductos() {
-      let response = [];
       if (localStorage.getItem("venta")) {
-        response = JSON.parse(localStorage.getItem("venta"));
+        this.venta = JSON.parse(localStorage.getItem("venta"));
       }
-      this.total = response.total;
-      this.productos = response.productos;
+      this.total = this.venta.total;
+      this.productos = this.venta.productos;
       this.busqueda = Object.assign([], this.productos);
     },
     buscar(str) {
@@ -111,7 +116,26 @@ export default {
       this.busqueda = Object.assign([], this.productos);
     },
     comprar() {
-      this.$router.push("iniciarSesion");
+      let fecha = new Date("2019", "1", "10");
+      console.log(fecha);
+      let day = "";
+      let month = "";
+
+      if (fecha.getDate() < 10) {
+        day = "0" + fecha.getDate();
+      } else {
+        day = "" + fecha.getDate();
+      }
+
+      if (fecha.getMonth() < 9) {
+        month = "0" + (fecha.getMonth() + 1);
+      } else {
+        month = "" + (fecha.getMonth() + 1);
+      }
+      fecha = fecha.getFullYear() + "-" + month + "-" + day;
+      this.venta.fecha = fecha;
+      console.log(this.venta.fecha);
+      //  this.$router.push("iniciarSesion");
     }
   },
   beforeMount() {
