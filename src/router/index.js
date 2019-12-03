@@ -5,6 +5,8 @@ import Productos from "../views/Productos.vue";
 import Carrito from "../views/Carrito.vue";
 import Sesion from "../views/Sesion.vue";
 import Pago from "../views/Pago.vue";
+import Peliculas from "../views/Peliculas.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -41,6 +43,10 @@ const routes = [
     path: "/pago",
     name: "pago",
     component: Pago
+  },{
+    path : "/peliculas",
+    name : "peliculas",
+    component : Peliculas
   }
 ];
 

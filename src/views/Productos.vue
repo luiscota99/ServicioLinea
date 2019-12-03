@@ -58,13 +58,15 @@ export default {
       this.productos = response.data;
       let venta = JSON.parse(localStorage.getItem("venta"));
       this.productos.forEach(producto => {
-        if (venta.productos.length > 0) {
-           let itemVenta = venta.productos.filter(item => item.idProducto == producto.productId);
-           if (itemVenta.length>0) {
-             producto.quantity = itemVenta[0].quantity;
-           }else{
-             producto.quantity = 0;
-           }
+        if (venta && venta.productos.length > 0) {
+          let itemVenta = venta.productos.filter(
+            item => item.idProducto == producto.productId
+          );
+          if (itemVenta.length > 0) {
+            producto.quantity = itemVenta[0].quantity;
+          } else {
+            producto.quantity = 0;
+          }
         } else {
           producto.quantity = 0;
         }
