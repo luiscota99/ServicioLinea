@@ -134,8 +134,9 @@ export default {
       }
       fecha = fecha.getFullYear() + "-" + month + "-" + day;
       this.venta.fecha = fecha;
-      console.log(this.venta.fecha);
-      //  this.$router.push("iniciarSesion");
+      console.log(this.venta);
+      localStorage.setItem("venta", JSON.stringify(this.venta));
+      this.$router.push("iniciarSesion");
     }
   },
   beforeMount() {
