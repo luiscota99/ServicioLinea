@@ -62,7 +62,7 @@ export default {
       let response = await ObtenerPeliculas.getPeliculas();
       this.peliculas = response.data;
       this.busqueda = Object.assign([], this.peliculas);
-      console.log(this.peliculas);
+      this.loadedProductos = 1;
     },
     buscar(str) {
       str = str.toLowerCase();
