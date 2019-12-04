@@ -19,7 +19,7 @@
           </div>
         </v-form>
       </v-card>
-      <v-layout row wrap class="mx-5">
+      <v-layout row wrap class="mx-5" v-if="loadedProductos == 1">
         <template>
           <Pelicula
             v-for="(pelicula, index) in busqueda"
@@ -27,6 +27,9 @@
             :pelicula="pelicula"
           />
         </template>
+      </v-layout>
+      <v-layout row wrap class="mx-5" v-else>
+        <FakeItem v-bind:key="i" v-for="(n, i) in repeat" />
       </v-layout>
     </v-content>
   </div>
@@ -37,18 +40,22 @@
 import ObtenerPeliculas from "@/services/Taquilla/Peliculas";
 import Navbar from "@/components/Navbar.vue";
 import Pelicula from "@/components/Pelicula.vue";
+import FakeItem from "@/components/FakeItem.vue";
 
 export default {
   name: "peliculas",
   components: {
     Navbar,
-    Pelicula
+    Pelicula,
+    FakeItem
   },
   data: () => ({
     drawer: null,
     peliculas: [],
     busqueda: [],
-    str: ""
+    str: "",
+    repeat: 4,
+    loadedProductos: 0
   }),
   methods: {
     async getPeliculas() {
