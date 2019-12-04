@@ -19,7 +19,7 @@
           </div>
         </v-form>
       </v-card>
-      <v-layout row wrap class="mx-5">
+      <v-layout row wrap class="mx-5" v-if="loadedProductos == 1">
         <template>
           <Product
             v-for="(producto, index) in busqueda"
@@ -28,6 +28,29 @@
             :key="index"
             :view="'productos'"
           />
+        </template>
+      </v-layout>
+      <v-layout row wrap class="mx-5" v-else>
+        <template>
+          <v-flex xs3 pa-1 v-bind:key="i" v-for="(n, i) in repeat">
+            <v-hover>
+              <v-card class="mx-auto" color="gray lighten-4">
+                <v-img contain src="" :aspect-ratio="16 / 9"></v-img>
+
+                <v-card-text class="pt-4" style="position: relative;">
+                  <a href="#" class="botUnit standardbot">
+                    <div class="preloadCardText"></div>
+                    <div class="preloadCardTextSub"></div>
+                  </a>
+
+                  <a href="#" class="botUnit standardbot">
+                    <div class="preloadCardText"></div>
+                    <div class="preloadCardTextSub"></div>
+                  </a>
+                </v-card-text>
+              </v-card>
+            </v-hover>
+          </v-flex>
         </template>
       </v-layout>
     </v-content>
@@ -50,7 +73,9 @@ export default {
     drawer: null,
     productos: [],
     busqueda: [],
-    str: ""
+    str: "",
+    repeat: 4,
+    loadedProductos: 0
   }),
   methods: {
     async getProductos() {
@@ -72,6 +97,7 @@ export default {
         }
       });
       this.busqueda = Object.assign([], this.productos);
+      this.loadedProductos = 1;
     },
     buscar(str) {
       str = str.toLowerCase();
@@ -90,3 +116,39 @@ export default {
   }
 };
 </script>
+<style scoped>
+@keyframes loading {
+  0% {
+    background-position: -100px;
+  }
+
+  100% {
+    background-position: 200px;
+  }
+}
+
+.preloadCardTextSub {
+  position: relative;
+  height: 15px;
+  border-radius: 25px;
+  margin-top: 50px;
+  width: 100%;
+  animation: loading 1s infinite linear;
+  background: #dedfe1;
+  background-image: -webkit-linear-gradient(
+    to right,
+    #dedfe1 0%,
+    #f2f3f5 20%,
+    #dedfe1 40%,
+    #dedfe1 100%
+  );
+  background-image: linear-gradient(
+    to right,
+    #dedfe1 0%,
+    #f2f3f5 20%,
+    #dedfe1 40%,
+    #dedfe1 100%
+  );
+  background-repeat: no-repeat;
+}
+</style>

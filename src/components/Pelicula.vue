@@ -67,8 +67,6 @@ export default {
   data: () => ({ dialog: false }),
   methods: {
     getEntradas(pelicula, horario) {
-      console.log(pelicula);
-      console.log(horario);
       this.dialog = true;
     }
   },
