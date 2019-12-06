@@ -29,31 +29,45 @@
     <v-card-title>Horarios</v-card-title>
 
     <v-card-text>
-      <v-chip-group active-class="deep-purple accent-4 white--text" column>
+      <v-chip-group active-class="primary accent-4 white--text" column>
         <v-chip
-          @click="getEntradas(pelicula, horario)"
+          :ref="'hora' + index"
+          @click="getBoletos(index)"
           v-for="(horario, index) in pelicula.horarios"
           :key="index"
           >{{ horario }}</v-chip
         >
       </v-chip-group>
+      <div v-if="dialog" transition="slide-y-transition">
+        <v-row align="center" class="mx-0 mt-5">
+          <v-select
+            :items="this.tipoBoletos"
+            label="Tipo de Boleto"
+            dense
+          ></v-select>
+        </v-row>
+        <v-row no-gutters>
+          <v-col sm="8" class="">
+            Cantidad:
+            <span class="ml-2">{{ cantidadBoletos }}</span>
+          </v-col>
+
+          <v-col sm="4" class="text-right">
+            <span class="mouseOver" @click="restartCantidad">
+              <v-icon>mdi-minus</v-icon>
+            </span>
+            <span class="mouseOver" @click="agregarCantidad">
+              <v-icon>mdi-plus</v-icon>
+            </span>
+          </v-col>
+        </v-row>
+      </div>
     </v-card-text>
-    <v-dialog v-model="dialog" width="500">
-      <v-card>
-        <v-card-title class="headline grey lighten-2" primary-title>
-          Boletos
-        </v-card-title>
-
-        <v-divider></v-divider>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="dialog = false">
-            Escoger Asientos
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <v-card-actions>
+      <v-btn color="blue accent-4" text>
+        Escoger Asientos
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -64,12 +78,32 @@ export default {
   components: {
     Seats
   },
-  data: () => ({ dialog: false }),
+  data: () => ({
+    dialog: false,
+    tipoBoletos: ["Normal", "3D", "VIP"],
+    cantidadBoletos: 0
+  }),
   methods: {
-    getEntradas(pelicula, horario) {
-      this.dialog = true;
+    getBoletos(index) {
+      let elementId = this.$refs[`hora${index}`][0].$el.className;
+      if (elementId.indexOf("active") > -1) {
+        this.dialog = false;
+      } else {
+        this.dialog = true;
+      }
+      // chips.foreach(function(element) {
+      // });
+    },
+    async agregarCantidad() {
+      this.cantidadBoletos++;
+    },
+    async restartCantidad() {
+      if (this.cantidadBoletos > 0) {
+        this.cantidadBoletos--;
+      }
     }
   },
+  beforeMount() {},
   props: {
     pelicula: Object
   }
