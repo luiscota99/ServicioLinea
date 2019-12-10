@@ -1,7 +1,7 @@
 import Api from "./TaquillaApi";
 
 export default {
-  getAsientos() {
-    return Api().get("/GetShowSeats");
+  getAsientos(param) {
+    return Api().get("/GetShowSeats", { params: param });
   }
 };
