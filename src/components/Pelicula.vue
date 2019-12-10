@@ -43,6 +43,9 @@
           <v-select
             :items="this.tipoBoletos"
             label="Tipo de Boleto"
+            v-model="precio"
+            item-value="precioBoleto"
+            item-text="tipoBoleto"
             dense
           ></v-select>
         </v-row>
@@ -60,6 +63,15 @@
               <v-icon>mdi-plus</v-icon>
             </span>
           </v-col>
+        </v-row>
+        <v-row no-gutters>
+          <v-col sm="8" class="caption">
+            Total:
+          </v-col>
+
+          <v-col sm="4" class="text-right caption">
+            {{ cantidadBoletos * precio }}</v-col
+          >
         </v-row>
       </div>
     </v-card-text>
@@ -80,19 +92,32 @@ export default {
   },
   data: () => ({
     dialog: false,
-    tipoBoletos: ["Normal", "3D", "VIP"],
+    precio: null,
+    tipoBoletos: [],
     cantidadBoletos: 0
   }),
   methods: {
     getBoletos(index) {
+      this.tipoBoletos = [
+        {
+          precioBoleto: this.pelicula.precioBoletos.boletoNormal,
+          tipoBoleto: "Normal"
+        },
+        {
+          precioBoleto: this.pelicula.precioBoletos.boleto3D,
+          tipoBoleto: "3D"
+        },
+        {
+          precioBoleto: this.pelicula.precioBoletos.boletoVIP,
+          tipoBoleto: "VIP"
+        }
+      ];
       let elementId = this.$refs[`hora${index}`][0].$el.className;
       if (elementId.indexOf("active") > -1) {
         this.dialog = false;
       } else {
         this.dialog = true;
       }
-      // chips.foreach(function(element) {
-      // });
     },
     async agregarCantidad() {
       this.cantidadBoletos++;
