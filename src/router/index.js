@@ -6,6 +6,7 @@ import Carrito from "../views/Carrito.vue";
 import Sesion from "../views/Sesion.vue";
 import Pago from "../views/Pago.vue";
 import Peliculas from "../views/Peliculas.vue";
+import Asientos from "../views/Asientos.vue";
 
 Vue.use(VueRouter);
 
@@ -43,10 +44,16 @@ const routes = [
     path: "/pago",
     name: "pago",
     component: Pago
-  },{
-    path : "/peliculas",
-    name : "peliculas",
-    component : Peliculas
+  },
+  {
+    path: "/peliculas",
+    name: "peliculas",
+    component: Peliculas
+  },
+  {
+    path: "/asientos/:sala/horario/:horario",
+    name: "asientos",
+    component: Asientos
   }
 ];
 

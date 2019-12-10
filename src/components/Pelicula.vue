@@ -32,7 +32,7 @@
       <v-chip-group active-class="primary accent-4 white--text" column>
         <v-chip
           :ref="'hora' + index"
-          @click="getBoletos(index)"
+          @click="getBoletos(index, horario)"
           v-for="(horario, index) in pelicula.horarios"
           :key="index"
           >{{ horario }}</v-chip
@@ -76,7 +76,7 @@
       </div>
     </v-card-text>
     <v-card-actions>
-      <v-btn color="blue accent-4" text>
+      <v-btn color="blue accent-4" @click="getAsientos()" text>
         Escoger Asientos
       </v-btn>
     </v-card-actions>
@@ -94,10 +94,20 @@ export default {
     dialog: false,
     precio: null,
     tipoBoletos: [],
-    cantidadBoletos: 0
+    cantidadBoletos: 0,
+    hora: ""
   }),
   methods: {
-    getBoletos(index) {
+    getAsientos() {
+      if (this.cantidadBoletos > 0) {
+        this.$router.push({
+          name: "asientos",
+          params: { sala: this.pelicula.sala, horario: this.hora }
+        });
+      }
+    },
+    getBoletos(index, horario) {
+      this.hora = horario;
       this.tipoBoletos = [
         {
           precioBoleto: this.pelicula.precioBoletos.boletoNormal,
