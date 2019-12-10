@@ -77,7 +77,7 @@ import EnviarPedido from "@/services/ServicioSalas/EnviarPedido";
 
 export default {
   data: () => ({
-    cuentaCine: "5050136422510762",
+    cuentaCine: "9595",
     show: false,
     user: "",
     mes: "",
@@ -101,13 +101,11 @@ export default {
           fecha_vencimiento: this.mes + "/" + this.anio,
           cvv: this.cvv,
           tarjeta_destino: this.cuentaCine,
-          monto: venta.total,
-          idTransaccion: 0
+          monto: venta.total
         };
         try {
           let res = await SolicitarTransferencia.postTransferencia(trans);
           if (res.status === 200) {
-            trans.idTransaccion = res.data.id;
             this.$swal("Transaccion realizada exitosamente", "", "success");
             localStorage.setItem("ventaPagada", JSON.stringify(venta));
             localStorage.removeItem("venta");
