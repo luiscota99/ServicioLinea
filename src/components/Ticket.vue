@@ -5,13 +5,19 @@
         <v-col>
           <v-card class="elevation-12">
             <v-toolbar dark color="indigo">
-              <v-toolbar-title>Ticket</v-toolbar-title>
+              <v-toolbar-title>Ticket 12345</v-toolbar-title>
             </v-toolbar>
-            <v-card-text></v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="success" dark @click="login">Continuar</v-btn>
-            </v-card-actions>
+            <v-list-item>
+              <v-list-item-title>Para entregar el {{ticket.fecha}} a partir de las {{ticket.hora}}</v-list-item-title>
+            </v-list-item>
+            <v-list-item v-for="(producto, index) in this.productos" :key="index">
+              <v-list-item-title>{{producto.quantity}} {{producto.nombre}}</v-list-item-title>
+              <v-list-item-subtitle>{{producto.quantity * producto.amount}}$</v-list-item-subtitle>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>Total pagado: {{ticket.total}}$</v-list-item-title>
+              <v-list-item-subtitle>Estado: {{ticket.estado}}</v-list-item-subtitle>
+            </v-list-item>
           </v-card>
         </v-col>
       </v-row>
@@ -22,21 +28,25 @@
 <script>
 export default {
   data: () => ({
-    show: false,
-    user: "",
-    fecha: "",
-    cvv: "",
-    err: "",
-    fechaErr: false,
-    cvvErr: false,
-    userErr: false
+    ticket: {},
+    productos: []
   }),
 
   methods: {
     async login() {
       this.$swal("Hello Vue world!!!");
     },
-    registrar() {}
+    cargarDatos() {
+      if (JSON.parse(localStorage.getItem("ventaPagada"))) {
+        this.ticket = JSON.parse(localStorage.getItem("ventaPagada"));
+        this.productos = JSON.parse(
+          localStorage.getItem("ventaPagada")
+        ).productos;
+      }
+    }
+  },
+  beforeMount() {
+    this.cargarDatos();
   }
 };
 </script>

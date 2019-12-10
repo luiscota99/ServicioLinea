@@ -77,7 +77,7 @@ import EnviarPedido from "@/services/ServicioSalas/EnviarPedido";
 
 export default {
   data: () => ({
-    cuentaCine: "9595",
+    cuentaCine: "5050136422510762",
     show: false,
     user: "",
     mes: "",
@@ -95,20 +95,23 @@ export default {
     },
     async transferencia() {
       if (JSON.parse(localStorage.getItem("venta"))) {
-        venta = JSON.parse(localStorage.getItem("venta"));
+        let venta = JSON.parse(localStorage.getItem("venta"));
         let trans = {
           tarjeta_origen: this.user,
           fecha_vencimiento: this.mes + "/" + this.anio,
           cvv: this.cvv,
           tarjeta_destino: this.cuentaCine,
-          monto: venta.total
+          monto: venta.total,
+          idTransaccion: 0
         };
         try {
           let res = await SolicitarTransferencia.postTransferencia(trans);
           if (res.status === 200) {
+            trans.idTransaccion = res.data.id;
             this.$swal("Transaccion realizada exitosamente", "", "success");
             localStorage.setItem("ventaPagada", JSON.stringify(venta));
             localStorage.removeItem("venta");
+            this.enviarPedido();
           } else {
             this.$swal(
               "Algo salio mal favor de volverlo a intentar",
@@ -127,7 +130,10 @@ export default {
     },
     async enviarPedido() {
       if (JSON.parse(localStorage.getItem("ventaPagada"))) {
-        
+        let res = await EnviarPedido.postPedido(
+          JSON.parse(localStorage.getItem("ventaPagada"))
+        );
+        console.log(res);
       }
     }
   }
