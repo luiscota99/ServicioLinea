@@ -66,7 +66,7 @@ export default {
       this.productos.forEach(producto => {
         if (venta && venta.productos.length > 0) {
           let itemVenta = venta.productos.filter(
-            item => item.idProducto == producto.productId
+            item => item.productId == producto.productId
           );
           if (itemVenta.length > 0) {
             producto.quantity = itemVenta[0].quantity;
