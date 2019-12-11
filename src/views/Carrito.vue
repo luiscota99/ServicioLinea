@@ -5,19 +5,31 @@
       <v-card class="mx-5 my-5">
         <v-form>
           <div class="row">
-            <v-text-field class="mx-5" v-model="str" label="Nombre del producto"></v-text-field>
-            <v-btn class="mr-5 my-5" color="primary" @click="buscar(str)">buscar</v-btn>
-            <v-btn class="mr-5 my-5" outlined color="primary" @click="todo()">mostrar todo</v-btn>
+            <v-text-field
+              class="mx-5"
+              v-model="str"
+              label="Nombre del producto"
+            ></v-text-field>
+            <v-btn class="mr-5 my-5" color="primary" @click="buscar(str)"
+              >buscar</v-btn
+            >
+            <v-btn class="mr-5 my-5" outlined color="primary" @click="todo()"
+              >mostrar todo</v-btn
+            >
           </div>
           <div class="row">
-            <v-btn class="mx-5 mb-5" color="success" @click="comprar()">comprar</v-btn>
+            <v-btn class="mx-5 mb-5" color="success" @click="comprar()"
+              >comprar</v-btn
+            >
             <h3 class="mt-1 mb-5">Total a pagar: ${{ total }}</h3>
           </div>
           <div class="row">
             <v-text-field
               v-model="venta.nombre_cliente"
               class="mx-5"
-              :label="nombreErr ? 'Nombre no valido' : 'Nombre Completo del cliente'"
+              :label="
+                nombreErr ? 'Nombre no valido' : 'Nombre Completo del cliente'
+              "
               :error="nombreErr"
             ></v-text-field>
             <v-text-field
@@ -47,7 +59,9 @@
                 <v-text-field
                   class="mr-5"
                   v-model="venta.hora"
-                  :label="horaErr ? 'Hora no valida' : 'Hora a partir para entregar'"
+                  :label="
+                    horaErr ? 'Hora no valida' : 'Hora a partir para entregar'
+                  "
                   :error="horaErr"
                   readonly
                   v-on="on"
@@ -79,6 +93,12 @@
             :view="'carrito'"
             @update-total="updateTotal"
           />
+          <Boleto
+            v-for="boleto in getBoletos().slice(0, 1)"
+            :boleto="boleto"
+            :key="boleto.id"
+            :view="'carrito'"
+          />
         </template>
       </v-layout>
     </v-content>
@@ -90,12 +110,14 @@
 import ObtenerProductos from "@/services/Cafeteria/ObtenerProductos";
 import Navbar from "@/components/Navbar.vue";
 import Product from "@/components/Product.vue";
+import Boleto from "@/components/Boleto.vue";
 
 export default {
   name: "carrito",
   components: {
     Navbar,
-    Product
+    Product,
+    Boleto
   },
   data: () => ({
     drawer: null,
@@ -113,6 +135,9 @@ export default {
     horaErr: false
   }),
   methods: {
+    getBoletos() {
+      return this.$store.getters.getBoletos;
+    },
     updateTotal(total) {
       this.total = total;
     },
@@ -142,7 +167,7 @@ export default {
         this.checkAsiento() &&
         this.checkHora()
       ) {
-        let fecha = new Date("2019", "1", "10");
+        let fecha = new Date();
         console.log(fecha);
         let day = "";
         let month = "";

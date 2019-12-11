@@ -8,6 +8,7 @@ import Pago from "../views/Pago.vue";
 import Peliculas from "../views/Peliculas.vue";
 import Asientos from "../views/Asientos.vue";
 import Corte from "../views/Corte.vue";
+import Boletos from "../views/Boletos.vue";
 
 Vue.use(VueRouter);
 
@@ -61,6 +62,11 @@ const routes = [
     path: "/corte",
     name: "corte",
     component: Corte
+  },
+  {
+    path: "/boletos",
+    name: "boletos",
+    component: Boletos
   }
 ];
 

@@ -18,6 +18,14 @@
             <v-list-item-title>Funciones Disponibles</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item to="/boletos">
+          <v-list-item-action>
+            <v-icon>mdi-ticket</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Boletos Comprados</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -27,9 +35,16 @@
       <v-spacer></v-spacer>
       <v-badge color="red" overlap class="align-self-center">
         <template v-slot:badge>
-          <span v-if="getProductos > 0">{{getProductos}}</span>
+          <span v-if="getProductos > 0">{{ getProductos }}</span>
         </template>
-        <v-btn title="Proceder con la compra" fab dark small color="primary" @click="compra()">
+        <v-btn
+          title="Proceder con la compra"
+          fab
+          dark
+          small
+          color="primary"
+          @click="compra()"
+        >
           <v-icon dark>mdi-cart</v-icon>
         </v-btn>
       </v-badge>
