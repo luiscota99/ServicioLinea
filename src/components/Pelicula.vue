@@ -99,6 +99,18 @@ export default {
   }),
   methods: {
     getAsientos() {
+      let tipo;
+      switch (this.precio) {
+        case 50:
+          tipo = "Normal";
+          break;
+        case 60:
+          tipo = "boleto3D";
+          break;
+        case 70:
+          tipo = "boletoVIP";
+          break;
+      }
       if (this.cantidadBoletos > 0) {
         localStorage.setItem("cantidadBoletos", this.cantidadBoletos);
         this.$router.push({
@@ -108,7 +120,7 @@ export default {
             horario: this.hora,
             pelicula: this.pelicula.pelicula,
             precio: this.precio,
-            tipo: "Normal"
+            tipo: tipo
           }
         });
       }
