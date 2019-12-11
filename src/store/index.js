@@ -46,6 +46,7 @@ export default new Vuex.Store({
   actions: {
     addBoleto(context, item) {
       context.commit("AGREGARBOLETOS", item);
+      localStorage.setItem("venta", JSON.stringify(this.state.venta));
     },
     addProduct(context, item) {
       if (

@@ -117,8 +117,8 @@ export default {
               this.$swal("Transaccion realizada exitosamente", "", "success");
               localStorage.setItem("ventaPagada", JSON.stringify(venta));
               localStorage.removeItem("venta");
-              this.postPedido();
-              //this.enviarPedido();
+              await this.postPedido();
+              await this.enviarPedido();
             } else {
               this.$swal(
                 "Algo salio mal favor de volverlo a intentar",
@@ -140,9 +140,11 @@ export default {
     async postPedido() {
       if (JSON.parse(localStorage.getItem("ventaPagada"))) {
         let res = await VentaService.postVenta(
-          localStorage.getItem("ventaPagada")
+          JSON.parse(localStorage.getItem("ventaPagada"))
         );
-        console.log(res);
+        let venta = JSON.parse(localStorage.getItem("ventaPagada"));
+        venta.numero_venta = res.data.venta._id;
+        localStorage.setItem("ventaPagada", JSON.stringify(venta));
       }
     },
 
