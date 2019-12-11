@@ -61,8 +61,8 @@ export default {
 
     async corte() {
       if (this.checkUser() && this.checkPass()) {
-        let fecha = { fecha: "2019-02-10" };
-        let res = await VentaService.getVentas(fecha);
+        //let fecha = { fecha: "2019-02-10" };
+        let res = await VentaService.getVentas();
         console.log(res.data);
       }
     },
