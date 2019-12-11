@@ -1,41 +1,22 @@
 <template>
   <div>
     <Navbar />
-    <v-content> </v-content>
+    <v-content> <Asientos /> </v-content>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import ObtenerAsientos from "@/services/Taquilla/Asientos";
 import Navbar from "@/components/Navbar.vue";
+import Asientos from "@/components/Seats.vue";
 
 export default {
   name: "asientos",
   components: {
-    Navbar
+    Navbar,
+    Asientos
   },
-  data: () => ({
-    asientos: []
-  }),
-  methods: {
-    async getAsientos() {
-      let currentDate = new Date();
-      let currentDateWithFormat = new Date()
-        .toJSON()
-        .slice(0, 10)
-        .replace(/-/g, "/");
-      let horario = `${currentDateWithFormat} ${this.$route.params.horario}`;
-      let response = await ObtenerAsientos.getAsientos({
-        idSala: this.$route.params.sala,
-        Horario: horario
-      });
-      this.asientos = response.data;
-      console.log(this.asientos);
-    }
-  },
-  beforeMount() {
-    this.getAsientos();
-  }
+  data: () => ({}),
+  methods: {}
 };
 </script>

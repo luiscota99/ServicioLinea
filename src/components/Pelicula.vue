@@ -100,9 +100,16 @@ export default {
   methods: {
     getAsientos() {
       if (this.cantidadBoletos > 0) {
+        localStorage.setItem("cantidadBoletos", this.cantidadBoletos);
         this.$router.push({
           name: "asientos",
-          params: { sala: this.pelicula.sala, horario: this.hora }
+          params: {
+            sala: this.pelicula.sala,
+            horario: this.hora,
+            pelicula: this.pelicula.pelicula,
+            precio: this.precio,
+            tipo: "Normal"
+          }
         });
       }
     },

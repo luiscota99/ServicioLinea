@@ -52,7 +52,8 @@ const routes = [
     component: Peliculas
   },
   {
-    path: "/asientos/:sala/horario/:horario",
+    path:
+      "/sala/:sala/horario/:horario/pelicula/:pelicula/precio/:precio/tipo/:tipo",
     name: "asientos",
     component: Asientos
   },

@@ -17,6 +17,7 @@ export default new Vuex.Store({
       hora: "",
       estado: "Pendiente",
       productos: [],
+      boletos: [],
       total: 0
     }
   },
@@ -25,18 +26,27 @@ export default new Vuex.Store({
       return state.venta.productos;
     },
     getProductosCount: (state, getters) => {
-      return getters.getProductos.length;
+      return getters.getProductos.length + getters.getBoletos.length;
+    },
+    getBoletos: state => {
+      return state.venta.boletos;
     }
   },
   mutations: {
     AGREGARPRODUCTOS(state, item) {
       state.venta.productos.push(item);
     },
+    AGREGARBOLETOS(state, item) {
+      state.venta.boletos.push(item);
+    },
     AGREGARCARRITO(state, obj) {
       state.venta = Object.assign({}, obj);
     }
   },
   actions: {
+    addBoleto(context, item) {
+      context.commit("AGREGARBOLETOS", item);
+    },
     addProduct(context, item) {
       if (
         this.state.venta.productos.filter(
