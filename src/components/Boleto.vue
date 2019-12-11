@@ -40,7 +40,7 @@
               <div class="caption">{{ boleto.hora }}</div>
             </v-col>
           </v-row>
-          <v-row no-gutters>
+          <v-row no-gutters v-if="view === 'carrito'">
             <v-col sm="8" class="caption">
               Cantidad:
               <span class="ml-2"> {{ getBoletosCount() }}</span>

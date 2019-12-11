@@ -79,6 +79,9 @@ export default new Vuex.Store({
       this.state.venta.productos.forEach(producto => {
         total += Number(producto.quantity) * Number(producto.amount);
       });
+      this.state.venta.boletos.forEach(boleto => {
+        total += Number(boleto.precio);
+      });
       this.state.venta.total = total;
       localStorage.setItem("venta", JSON.stringify(this.state.venta));
     },
@@ -89,6 +92,9 @@ export default new Vuex.Store({
       let total = 0;
       this.state.venta.productos.forEach(producto => {
         total += Number(producto.quantity) * Number(producto.amount);
+      });
+      this.state.venta.boletos.forEach(boleto => {
+        total += Number(boleto.precio);
       });
       this.state.venta.total = total;
       //console.log(this.state.venta.productos.length);

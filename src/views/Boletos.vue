@@ -5,7 +5,7 @@
       <v-layout row wrap class="my-5 mx-5">
         <template>
           <Boleto
-            v-for="(boleto, index) in getBoletos()"
+            v-for="(boleto, index) in boletos"
             :boleto="boleto"
             :key="index"
             :view="'boletoComprado'"
@@ -26,15 +26,20 @@ export default {
     Navbar,
     Boleto
   },
-  data: () => ({}),
+  data: () => ({
+    boletos: []
+  }),
   methods: {
     getBoletos() {
-      var response = localStorage.getItem("ventaPagada");
-      if (response && reponse.boletos) {
-        return response.boletos;
+      var response = JSON.parse(localStorage.getItem("ventaPagada"));
+      if (response && response.boletos) {
+        this.boletos = response.boletos;
+        console.log(this.boletos);
       }
     }
   },
-  beforeMount() {}
+  beforeMount() {
+    this.getBoletos();
+  }
 };
 </script>

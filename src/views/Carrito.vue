@@ -146,6 +146,11 @@ export default {
       }
       this.total = this.venta.total;
       this.productos = this.venta.productos;
+      if (this.venta.boletos.length > 0) {
+        this.venta.sala = this.venta.boletos[0].sala;
+        this.venta.asiento = this.venta.boletos[0].name;
+        this.venta.hora = this.venta.boletos[0].hora;
+      }
       this.busqueda = Object.assign([], this.productos);
     },
     buscar(str) {
