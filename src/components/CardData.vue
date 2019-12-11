@@ -74,6 +74,7 @@
 <script>
 import SolicitarTransferencia from "@/services/Banco/SolicitarTransferencia";
 import EnviarPedido from "@/services/ServicioSalas/EnviarPedido";
+import VentaService from "../services/BackEnd/VentaService";
 
 export default {
   data: () => ({
@@ -116,7 +117,8 @@ export default {
               this.$swal("Transaccion realizada exitosamente", "", "success");
               localStorage.setItem("ventaPagada", JSON.stringify(venta));
               localStorage.removeItem("venta");
-              this.enviarPedido();
+              this.postPedido();
+              //this.enviarPedido();
             } else {
               this.$swal(
                 "Algo salio mal favor de volverlo a intentar",
@@ -134,6 +136,16 @@ export default {
         }
       }
     },
+
+    async postPedido() {
+      if (JSON.parse(localStorage.getItem("ventaPagada"))) {
+        let res = await VentaService.postVenta(
+          localStorage.getItem("ventaPagada")
+        );
+        console.log(res);
+      }
+    },
+
     async enviarPedido() {
       if (JSON.parse(localStorage.getItem("ventaPagada"))) {
         let res = await EnviarPedido.postPedido(
