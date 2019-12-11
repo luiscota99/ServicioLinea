@@ -9,6 +9,7 @@ import Peliculas from "../views/Peliculas.vue";
 import Asientos from "../views/Asientos.vue";
 import Corte from "../views/Corte.vue";
 import Boletos from "../views/Boletos.vue";
+import Recibo from "../views/Recibo.vue";
 
 Vue.use(VueRouter);
 
@@ -17,15 +18,6 @@ const routes = [
     path: "/",
     name: "home",
     component: Home
-  },
-  {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
   },
   {
     path: "/productos",
@@ -67,6 +59,11 @@ const routes = [
     path: "/boletos",
     name: "boletos",
     component: Boletos
+  },
+  {
+    path: "/recibo",
+    name: "recibo",
+    component: Recibo
   }
 ];
 

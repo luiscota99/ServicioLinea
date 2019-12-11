@@ -20,10 +20,18 @@
         </v-list-item>
         <v-list-item to="/boletos">
           <v-list-item-action>
-            <v-icon>mdi-ticket</v-icon>
+            <v-icon>mdi-ticket-confirmation</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Boletos Comprados</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/recibo">
+          <v-list-item-action>
+            <v-icon>mdi-ticket-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Recibo</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
