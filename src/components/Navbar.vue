@@ -23,7 +23,7 @@
             <v-icon>mdi-ticket</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title >Funciones Disponibles</v-list-item-title>
+            <v-list-item-title>Funciones Disponibles</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -64,7 +64,11 @@ export default {
 
   methods: {
     compra() {
-      this.$router.push("carrito");
+      if (JSON.parse(localStorage.getItem("venta"))) {
+        this.$router.push("carrito");
+      } else {
+        this.$swal("No hay productos en el carrito", "", "warning");
+      }
     },
 
     async hola() {

@@ -13,7 +13,7 @@
                   @keyup.enter="login"
                   color="indigo"
                   name="login"
-                  :label="userErr ? err : 'No. de Tarjeta'"
+                  :label="userErr ? 'Datos no validos' : 'No. de Tarjeta'"
                   v-model="user"
                   :error="userErr"
                 ></v-text-field>
@@ -25,12 +25,12 @@
                     id="mes"
                     name="mes"
                     :label="
-                    fechaErr
-                      ? 'Datos Incorretcos'
+                    fecha1Err
+                      ? 'Mes no valido'
                       : 'Mes'
-                  "
+                    "
                     v-model="mes"
-                    :error="fechaErr"
+                    :error="fecha1Err"
                   ></v-text-field>
                   <h2 class="mx-5 mt-6">/</h2>
                   <v-text-field
@@ -39,12 +39,12 @@
                     id="anio"
                     name="anio"
                     :label="
-                    fechaErr
-                      ? 'Datos Incorretcos'
+                    fecha2Err
+                      ? 'Año no valido'
                       : 'Año'
                   "
                     v-model="anio"
-                    :error="fechaErr"
+                    :error="fecha2Err"
                   ></v-text-field>
                 </div>
                 <v-text-field
@@ -53,7 +53,7 @@
                   id="cvv"
                   name="cvv"
                   :label="
-                    cvvErr ? 'Datos Incorrectos' : 'CVV (No. de Seguridad)'
+                    cvvErr ? 'Datos no validos' : 'CVV (No. de Seguridad)'
                   "
                   v-model="cvv"
                   :error="cvvErr"
@@ -83,8 +83,8 @@ export default {
     mes: "",
     anio: "",
     cvv: "",
-    err: "",
-    fechaErr: false,
+    fecha1Err: false,
+    fecha2Err: false,
     cvvErr: false,
     userErr: false
   }),
@@ -94,35 +94,42 @@ export default {
       this.$swal("Hello Vue world!!!");
     },
     async transferencia() {
-      if (JSON.parse(localStorage.getItem("venta"))) {
-        let venta = JSON.parse(localStorage.getItem("venta"));
-        let trans = {
-          tarjeta_origen: this.user,
-          fecha_vencimiento: this.mes + "/" + this.anio,
-          cvv: this.cvv,
-          tarjeta_destino: this.cuentaCine,
-          monto: venta.total
-        };
-        try {
-          let res = await SolicitarTransferencia.postTransferencia(trans);
-          if (res.status === 200) {
-            this.$swal("Transaccion realizada exitosamente", "", "success");
-            localStorage.setItem("ventaPagada", JSON.stringify(venta));
-            localStorage.removeItem("venta");
-            this.enviarPedido();
-          } else {
+      if (
+        this.checkUser() &&
+        this.checkMes() &&
+        this.checkAnio() &&
+        this.checkCvv()
+      ) {
+        if (JSON.parse(localStorage.getItem("venta"))) {
+          let venta = JSON.parse(localStorage.getItem("venta"));
+          let trans = {
+            tarjeta_origen: this.user,
+            fecha_vencimiento: this.mes + "/" + this.anio,
+            cvv: this.cvv,
+            tarjeta_destino: this.cuentaCine,
+            monto: venta.total
+          };
+          try {
+            let res = await SolicitarTransferencia.postTransferencia(trans);
+            if (res.status === 200) {
+              this.$swal("Transaccion realizada exitosamente", "", "success");
+              localStorage.setItem("ventaPagada", JSON.stringify(venta));
+              localStorage.removeItem("venta");
+              this.enviarPedido();
+            } else {
+              this.$swal(
+                "Algo salio mal favor de volverlo a intentar",
+                "",
+                "warning"
+              );
+            }
+          } catch {
             this.$swal(
               "Algo salio mal favor de volverlo a intentar",
               "",
               "warning"
             );
           }
-        } catch {
-          this.$swal(
-            "Algo salio mal favor de volverlo a intentar",
-            "",
-            "warning"
-          );
         }
       }
     },
@@ -132,6 +139,66 @@ export default {
           JSON.parse(localStorage.getItem("ventaPagada"))
         );
         console.log(res);
+      }
+    },
+
+    checkMes() {
+      this.fecha1Err = false;
+      let numero = /^\d*$/;
+      if (
+        this.mes.length > 2 ||
+        this.mes.length < 2 ||
+        !numero.test(this.mes)
+      ) {
+        this.fecha1Err = true;
+        return false;
+      } else {
+        return true;
+      }
+    },
+
+    checkAnio(fecha, err) {
+      this.fecha2Err = false;
+      let numero = /^\d*$/;
+      if (
+        this.anio.length > 2 ||
+        this.anio.length < 2 ||
+        !numero.test(this.anio)
+      ) {
+        this.fecha2Err = true;
+        return false;
+      } else {
+        return true;
+      }
+    },
+
+    checkUser() {
+      this.userErr = false;
+      let numero = /^\d*$/;
+      if (
+        this.user.length > 16 ||
+        this.user.length < 16 ||
+        !numero.test(this.user)
+      ) {
+        this.userErr = true;
+        return false;
+      } else {
+        return true;
+      }
+    },
+
+    checkCvv() {
+      this.cvvErr = false;
+      let numero = /^\d*$/;
+      if (
+        this.cvv.length > 3 ||
+        this.cvv.length < 3 ||
+        !numero.test(this.cvv)
+      ) {
+        this.cvvErr = true;
+        return false;
+      } else {
+        return true;
       }
     }
   }
