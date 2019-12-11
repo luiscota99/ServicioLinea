@@ -46,6 +46,7 @@
 
 <script>
 import VentaService from "@/services/BackEnd/VentaService";
+import EnviarVentas from "@/services/Finanzas/EnviarVentas";
 
 export default {
   data: () => ({
@@ -64,6 +65,79 @@ export default {
         //let fecha = { fecha: "2019-02-10" };
         let res = await VentaService.getVentas();
         console.log(res.data);
+        let fecha = new Date(res.data.date);
+        let day = "";
+        let month = "";
+
+        if (fecha.getDate() < 10) {
+          day = "0" + fecha.getDate();
+        } else {
+          day = "" + fecha.getDate();
+        }
+
+        if (fecha.getMonth() < 9) {
+          month = "0" + (fecha.getMonth() + 1);
+        } else {
+          month = "" + (fecha.getMonth() + 1);
+        }
+
+        fecha = fecha.getFullYear() + "-" + month + "-" + day + "T00:00:00";
+
+        /*let venta = {
+          date: fecha,
+          departmentKey: res.data.departmentKey,
+          productList: res.data.productList,
+          total: res.data.total
+        };*/
+
+        let venta = {
+          departmentKey: 4,
+          date: "2019-11-12T00:00:00",
+          productList: [
+            {
+              productId: 32,
+              name: "Palomitas",
+              quantity: 3,
+              amount: 230.0
+            },
+            {
+              productId: 48,
+              name: "Gomitas",
+              quantity: 3,
+              amount: 100.5
+            },
+            {
+              productId: 69,
+              name: "BoletoA1",
+              quantity: 1,
+              amount: 20.0
+            },
+            {
+              productId: 31,
+              name: "Cafreeze",
+              quantity: 3,
+              amount: 230.0
+            },
+            {
+              productId: 48,
+              name: "Chocolates",
+              quantity: 3,
+              amount: 100.5
+            },
+            {
+              productId: 69,
+              name: "BoletoA3",
+              quantity: 1,
+              amount: 20.0
+            }
+          ],
+          total: 720.0
+        };
+
+        console.log(venta);
+
+        let response = await EnviarVentas.addVentas(venta);
+        console.log(response);
       }
     },
 
