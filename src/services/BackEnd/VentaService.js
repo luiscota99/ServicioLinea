@@ -1,8 +1,12 @@
 import Api from "./Api";
 
 export default {
-  getVentas(data) {
-    return Api().get("/", data);
+  getVentas() {
+    return Api().get("/");
+  },
+
+  getVenta(id) {
+    return Api().get(`/${id}`);
   },
 
   postVenta(data) {
