@@ -7,6 +7,7 @@ import Sesion from "../views/Sesion.vue";
 import Pago from "../views/Pago.vue";
 import Peliculas from "../views/Peliculas.vue";
 import Asientos from "../views/Asientos.vue";
+import Corte from "../views/Corte.vue";
 
 Vue.use(VueRouter);
 
@@ -54,6 +55,11 @@ const routes = [
     path: "/asientos/:sala/horario/:horario",
     name: "asientos",
     component: Asientos
+  },
+  {
+    path: "/corte",
+    name: "corte",
+    component: Corte
   }
 ];
 

@@ -13,7 +13,7 @@ import Navbar from "@/components/Navbar.vue";
 import Cut from "@/components/Cut.vue";
 
 export default {
-  name: "corte",
+  name: "iniciarSesion",
   components: {
     Navbar,
     Cut
