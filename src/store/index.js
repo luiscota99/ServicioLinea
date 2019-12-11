@@ -33,6 +33,9 @@ export default new Vuex.Store({
     },
     getBoletosCount: (state, getters) => {
       return getters.getBoletos.length;
+    },
+    getTotal: state => {
+      return state.venta.total;
     }
   },
   mutations: {
@@ -40,7 +43,7 @@ export default new Vuex.Store({
       state.venta.productos.push(item);
     },
     AGREGARBOLETOS(state, item) {
-      state.venta.boletos.push(item);
+      state.venta.boletos = item;
     },
     AGREGARCARRITO(state, obj) {
       state.venta = Object.assign({}, obj);
@@ -50,6 +53,14 @@ export default new Vuex.Store({
     addBoleto(context, item) {
       context.commit("AGREGARBOLETOS", item);
       localStorage.setItem("venta", JSON.stringify(this.state.venta));
+      let total = 0;
+      this.state.venta.productos.forEach(producto => {
+        total += Number(producto.quantity) * Number(producto.amount);
+      });
+      this.state.venta.boletos.forEach(boleto => {
+        total += Number(boleto.precio);
+      });
+      this.state.venta.total = total;
     },
     addProduct(context, item) {
       if (
@@ -87,6 +98,11 @@ export default new Vuex.Store({
       this.state.venta.boletos = this.state.venta.boletos.filter(
         boleto => boleto.sala !== item.sala
       );
+      let total = 0;
+      this.state.venta.productos.forEach(producto => {
+        total += Number(producto.quantity) * Number(producto.amount);
+      });
+      this.state.venta.total = total;
       localStorage.setItem("venta", JSON.stringify(this.state.venta));
     },
 

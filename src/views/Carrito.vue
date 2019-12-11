@@ -21,7 +21,7 @@
             <v-btn class="mx-5 mb-5" color="success" @click="comprar()"
               >comprar</v-btn
             >
-            <h3 class="mt-1 mb-5">Total a pagar: ${{ total }}</h3>
+            <h3 class="mt-1 mb-5">Total a pagar: ${{ getTotal() }}</h3>
           </div>
           <div class="row">
             <v-text-field
@@ -91,7 +91,6 @@
             :image="true"
             :key="index"
             :view="'carrito'"
-            @update-total="updateTotal"
           />
           <Boleto
             v-for="boleto in getBoletos().slice(0, 1)"
@@ -138,8 +137,8 @@ export default {
     getBoletos() {
       return this.$store.getters.getBoletos;
     },
-    updateTotal(total) {
-      this.total = total;
+    getTotal() {
+      return this.$store.getters.getTotal;
     },
     getProductos() {
       if (localStorage.getItem("venta")) {

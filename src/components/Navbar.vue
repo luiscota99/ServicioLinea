@@ -31,7 +31,7 @@
 
     <v-app-bar app color="indigo" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>Venta en Linea</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-badge color="red" overlap class="align-self-center">
         <template v-slot:badge>

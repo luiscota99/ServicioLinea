@@ -90,6 +90,7 @@ export default {
       this.asientos = response.data;
     },
     continuar() {
+      let arreglo = [];
       this.asientosSeleccionados.forEach(element => {
         let item = {
           pelicula: this.pelicula,
@@ -100,8 +101,10 @@ export default {
           tipo: this.tipo,
           precio: this.precio
         };
-        this.$store.dispatch("addBoleto", item);
+        arreglo.push(item);
       });
+      this.$store.dispatch("addBoleto", arreglo);
+      this.$router.push("/productos").catch(err => {});
     }
   },
   beforeMount() {
