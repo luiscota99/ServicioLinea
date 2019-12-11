@@ -75,6 +75,8 @@
 import SolicitarTransferencia from "@/services/Banco/SolicitarTransferencia";
 import EnviarPedido from "@/services/ServicioSalas/EnviarPedido";
 import VentaService from "../services/BackEnd/VentaService";
+import Boleto from "../services/Taquilla/Boleto";
+import Venta from "../services/Taquilla/Venta";
 
 export default {
   data: () => ({
@@ -118,7 +120,20 @@ export default {
               localStorage.setItem("ventaPagada", JSON.stringify(venta));
               localStorage.removeItem("venta");
               await this.postPedido();
-              await this.enviarPedido();
+              if (
+                JSON.parse(localStorage.getItem("ventaPagada")).productos
+                  .length > 0
+              ) {
+                await this.enviarPedido();
+              }
+
+              if (
+                JSON.parse(localStorage.getItem("ventaPagada")).boletos.length >
+                0
+              ) {
+                await this.postBoletos();
+                await this.postAsientos();
+              }
             } else {
               this.$swal(
                 "Algo salio mal favor de volverlo a intentar",
@@ -153,6 +168,44 @@ export default {
         let res = await EnviarPedido.postPedido(
           JSON.parse(localStorage.getItem("ventaPagada"))
         );
+        console.log(res);
+      }
+    },
+
+    async postAsientos() {
+      if (JSON.parse(localStorage.getItem("ventaPagada"))) {
+        let ven = JSON.parse(localStorage.getItem("ventaPagada"));
+        let newFecha = ven.fecha.replace("-", "/");
+        newFecha = ven.fecha.replace("-", "/");
+        let venta = {
+          numero_venta: ven.numero_venta,
+          codigo_cliente: ven.codigo_cliente,
+          numero_transaccion: ven.numero_transaccion,
+          puntos: ven.puntos,
+          fecha: newFecha,
+          nombre_cliente: ven.nombre_cliente,
+          productos: ven.boletos,
+          total: ven.total
+        };
+        console.log(venta);
+        let res = await Venta.postTicketSale(venta);
+        console.log(res);
+      }
+    },
+
+    async postBoletos() {
+      if (JSON.parse(localStorage.getItem("ventaPagada"))) {
+        let boletos = JSON.parse(localStorage.getItem("ventaPagada")).boletos;
+        let tickets = {
+          IdSala: Number(boletos[0].sala),
+          Horario: "2019-11-11 " + boletos[0].hora,
+          AsientosUsados: []
+        };
+        boletos.forEach(boleto => {
+          tickets.AsientosUsados.push(boleto.name);
+        });
+        console.log(tickets);
+        let res = await Boleto.postTicketSale(tickets);
         console.log(res);
       }
     },

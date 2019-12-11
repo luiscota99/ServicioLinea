@@ -5,22 +5,12 @@
       <v-card class="mx-5 my-5">
         <v-form>
           <div class="row">
-            <v-text-field
-              class="mx-5"
-              v-model="str"
-              label="Nombre del producto"
-            ></v-text-field>
-            <v-btn class="mr-5 my-5" color="primary" @click="buscar(str)"
-              >buscar</v-btn
-            >
-            <v-btn class="mr-5 my-5" outlined color="primary" @click="todo()"
-              >mostrar todo</v-btn
-            >
+            <v-text-field class="mx-5" v-model="str" label="Nombre del producto"></v-text-field>
+            <v-btn class="mr-5 my-5" color="primary" @click="buscar(str)">buscar</v-btn>
+            <v-btn class="mr-5 my-5" outlined color="primary" @click="todo()">mostrar todo</v-btn>
           </div>
           <div class="row">
-            <v-btn class="mx-5 mb-5" color="success" @click="comprar()"
-              >comprar</v-btn
-            >
+            <v-btn class="mx-5 mb-5" color="success" @click="comprar()">comprar</v-btn>
             <h3 class="mt-1 mb-5">Total a pagar: ${{ total }}</h3>
           </div>
           <div class="row">
@@ -147,6 +137,11 @@ export default {
       }
       this.total = this.venta.total;
       this.productos = this.venta.productos;
+      if (this.venta.boletos.length > 0) {
+        this.venta.sala = this.venta.boletos[0].sala;
+        this.venta.asiento = this.venta.boletos[0].name;
+        this.venta.hora = this.venta.boletos[0].hora;
+      }
       this.busqueda = Object.assign([], this.productos);
     },
     buscar(str) {
