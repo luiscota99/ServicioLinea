@@ -45,7 +45,17 @@ export default new Vuex.Store({
   },
   actions: {
     addBoleto(context, item) {
-      context.commit("AGREGARBOLETOS", item);
+      if (
+        this.state.venta.boletos.filter(boleto => boleto.id == item.id).length >
+        0
+      ) {
+        this.state.venta.boletos = this.state.venta.boletos.filter(
+          boleto => boleto.sala !== item.sala
+        );
+        context.commit("AGREGARBOLETOS", item);
+      } else {
+        context.commit("AGREGARBOLETOS", item);
+      }
     },
     addProduct(context, item) {
       if (
