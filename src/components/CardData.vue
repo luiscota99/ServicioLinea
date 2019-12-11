@@ -112,42 +112,41 @@ export default {
             tarjeta_destino: this.cuentaCine,
             monto: venta.total
           };
-          try {
-            let res = await SolicitarTransferencia.postTransferencia(trans);
-            if (res.status === 200) {
-              venta.numero_transaccion = res.data.data.id;
-              this.$swal("Transaccion realizada exitosamente", "", "success");
-              localStorage.setItem("ventaPagada", JSON.stringify(venta));
-              localStorage.removeItem("venta");
-              await this.postPedido();
-              if (
-                JSON.parse(localStorage.getItem("ventaPagada")).productos
-                  .length > 0
-              ) {
-                await this.enviarPedido();
-              }
-
-              if (
-                JSON.parse(localStorage.getItem("ventaPagada")).boletos.length >
-                0
-              ) {
-                await this.postBoletos();
-                await this.postAsientos();
-              }
-            } else {
-              this.$swal(
-                "Algo salio mal favor de volverlo a intentar",
-                "",
-                "warning"
-              );
+          //try {
+          let res = await SolicitarTransferencia.postTransferencia(trans);
+          if (res.status === 200) {
+            venta.numero_transaccion = res.data.data.id;
+            this.$swal("Transaccion realizada exitosamente", "", "success");
+            localStorage.setItem("ventaPagada", JSON.stringify(venta));
+            localStorage.removeItem("venta");
+            await this.postPedido();
+            if (
+              JSON.parse(localStorage.getItem("ventaPagada")).productos.length >
+              0
+            ) {
+              await this.enviarPedido();
             }
-          } catch {
+
+            if (
+              JSON.parse(localStorage.getItem("ventaPagada")).boletos.length > 0
+            ) {
+              await this.postBoletos();
+              await this.postAsientos();
+            }
+          } else {
             this.$swal(
               "Algo salio mal favor de volverlo a intentar",
               "",
               "warning"
             );
           }
+          /*} catch {
+            this.$swal(
+              "Algo salio mal favor de volverlo a intentar",
+              "",
+              "warning"
+            );
+          }*/
         }
       }
     },
@@ -176,7 +175,8 @@ export default {
       if (JSON.parse(localStorage.getItem("ventaPagada"))) {
         let ven = JSON.parse(localStorage.getItem("ventaPagada"));
         let newFecha = ven.fecha.replace("-", "/");
-        newFecha = ven.fecha.replace("-", "/");
+        newFecha = newFecha.replace("-", "/");
+        console.log(newFecha);
         let venta = {
           numero_venta: ven.numero_venta,
           codigo_cliente: ven.codigo_cliente,
