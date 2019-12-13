@@ -88,7 +88,6 @@
           <Product
             v-for="(producto, index) in busqueda"
             :producto="producto"
-            :image="true"
             :key="index"
             :view="'carrito'"
           />

@@ -82,7 +82,7 @@ export default {
         .toJSON()
         .slice(0, 10)
         .replace(/-/g, "/");
-      let horario = `2019/11/11 ${this.$route.params.horario}`;
+      let horario = `${currentDateWithFormat} ${this.$route.params.horario}`;
       let response = await ObtenerAsientos.getAsientos({
         idSala: this.$route.params.sala,
         Horario: horario

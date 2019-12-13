@@ -1,14 +1,21 @@
 <template>
   <v-card class="mx-auto my-12" max-width="374">
     <v-img
+      contain
       height="250"
-      src="https://sm.ign.com/t/ign_es/screenshot/default/1-mifvgh3dznbhjqfsbdr9ca_bjpa.1280.jpg"
+      :src="pelicula.photoUrl"
+      min-width="370"
     ></v-img>
     <v-row
       style="    margin-right: 0;
     margin-left: 0;"
     >
-      <v-card-title class=" col-sm-7">{{ pelicula.pelicula }} </v-card-title>
+      <v-card-title
+        class=" col-sm-7"
+        style="text-overflow: ellipsis;
+        white-space: nowrap; overflow: hidden;"
+        >{{ pelicula.pelicula }}
+      </v-card-title>
       <div
         class="grey--text caption text-right col-sm-5"
         style="
@@ -92,7 +99,7 @@ export default {
   },
   data: () => ({
     dialog: false,
-    precio: null,
+    precio: 0,
     tipoBoletos: [],
     cantidadBoletos: 0,
     hora: ""
@@ -111,7 +118,7 @@ export default {
           tipo = "boletoVIP";
           break;
       }
-      if (this.cantidadBoletos > 0) {
+      if (this.cantidadBoletos > 0 && this.precio !== 0) {
         localStorage.setItem("cantidadBoletos", this.cantidadBoletos);
         this.$router.push({
           name: "asientos",

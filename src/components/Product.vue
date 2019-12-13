@@ -3,7 +3,6 @@
     <v-hover>
       <v-card class="mx-auto" color="gray lighten-4">
         <v-img
-          v-if="image"
           contain
           src="https://images-na.ssl-images-amazon.com/images/I/516Kp8B1gVL._SX466_.jpg"
           :aspect-ratio="16 / 9"
