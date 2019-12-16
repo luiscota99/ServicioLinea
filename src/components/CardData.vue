@@ -206,7 +206,7 @@ export default {
           boletos: ventaPagada.boletos,
           codigo_cliente: ventaPagada.codigo_cliente,
           estado: ventaPagada.estado,
-          fecha: ventaPagada.fecha,
+          fecha: ventaPagada.fecha_entrega,
           hora: ventaPagada.hora,
           nombre_cliente: ventaPagada.nombre_cliente,
           numero_transaccion: ventaPagada.numero_transaccion,
