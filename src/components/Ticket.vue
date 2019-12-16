@@ -5,10 +5,13 @@
         <v-col>
           <v-card class="elevation-12">
             <v-toolbar dark color="indigo">
-              <v-toolbar-title>Ticket {{ ticket.numero_venta }}</v-toolbar-title>
+              <v-toolbar-title>Ticket No. {{ ticket.numero_venta }}</v-toolbar-title>
             </v-toolbar>
             <v-list-item>
               <v-list-item-title>Transaccion No. {{ticket.numero_transaccion}}</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>Puntos Generados: {{ticket.puntos}}</v-list-item-title>
             </v-list-item>
             <v-list-item>
               <v-list-item-title>

@@ -118,8 +118,9 @@ export default {
           };
           try {
             let res = await SolicitarTransferencia.postTransferencia(trans);
+            console.log(res);
             if (res.status === 200) {
-              venta.numero_transaccion = res.data.data.id;
+              venta.numero_transaccion = res.data.data.no_transaccion;
               if (JSON.parse(localStorage.getItem("sesion"))) {
                 await this.generarPuntos();
                 localStorage.removeItem("sesion");
@@ -131,7 +132,7 @@ export default {
               this.$swal("Transaccion realizada exitosamente", "", "success");
               localStorage.setItem("ventaPagada", JSON.stringify(venta));
               localStorage.removeItem("venta");
-              //await this.postPedido();
+              await this.postPedido();
               /*if (
                 JSON.parse(localStorage.getItem("ventaPagada")).productos
                   .length > 0
@@ -191,13 +192,31 @@ export default {
           JSON.parse(localStorage.getItem("ventaPagada"))
         );
         let venta = JSON.parse(localStorage.getItem("ventaPagada"));
-        venta.numero_venta = res.data.venta._id;
+        venta.numero_venta = res.data.venta.num_venta + "";
         localStorage.setItem("ventaPagada", JSON.stringify(venta));
       }
     },
 
     async enviarPedido() {
       if (JSON.parse(localStorage.getItem("ventaPagada"))) {
+        let venta = {
+          asiento: "1A",
+          boletos: [],
+          codigo_cliente: "0",
+          estado: "Pendiente",
+          fecha: "2019-12-15",
+          hora: "02:10",
+          nombre_cliente: "Alejandro Landavazo Olivas",
+          numero_transaccion: 300,
+          numero_venta: "2",
+          observaciones: "",
+          productos: [
+            { nombre: "Blizzard Oreo G", amount: 75, quantity: 2, productId: 4 }
+          ],
+          puntos: 0,
+          sala: "1",
+          total: 150
+        };
         let res = await EnviarPedido.postPedido(
           JSON.parse(localStorage.getItem("ventaPagada"))
         );

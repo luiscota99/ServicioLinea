@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     venta: {
       fecha: "",
+      fecha_entrega: "",
       nombre_cliente: "",
       observaciones: "",
       codigo_cliente: "0",
