@@ -29,6 +29,12 @@
       <v-row align="center" class="mx-0">
         <div class="grey--text ml-0">{{ pelicula.genero }}</div>
       </v-row>
+      <input type="checkbox" class="viewmore" :id="this.pelicula.pelicula" />
+      <p class="caption">{{ pelicula.sinopsis }}</p>
+      <!-- Note: I have sadly not found a nice way to put the more button/label inline inside the paragraph, after or before the ellipsis. -->
+      <label :for="this.pelicula.pelicula" class="caption" role="button"
+        >Ver mas</label
+      >
     </v-card-text>
 
     <v-divider class="mx-4"></v-divider>
@@ -174,4 +180,22 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+input:checked + p {
+  -webkit-line-clamp: unset;
+}
+input.viewmore {
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
+}
+input:focus ~ label {
+  outline: -webkit-focus-ring-color auto 5px;
+}
+.read-more {
+  display: none;
+}
+p:truncated + .read-more {
+  display: block;
+}
+</style>

@@ -5,12 +5,22 @@
       <v-card class="mx-5 my-5">
         <v-form>
           <div class="row">
-            <v-text-field class="mx-5" v-model="str" label="Nombre del producto"></v-text-field>
-            <v-btn class="mr-5 my-5" color="primary" @click="buscar(str)">buscar</v-btn>
-            <v-btn class="mr-5 my-5" outlined color="primary" @click="todo()">mostrar todo</v-btn>
+            <v-text-field
+              class="mx-5"
+              v-model="str"
+              label="Nombre del producto"
+            ></v-text-field>
+            <v-btn class="mr-5 my-5" color="primary" @click="buscar(str)"
+              >buscar</v-btn
+            >
+            <v-btn class="mr-5 my-5" outlined color="primary" @click="todo()"
+              >mostrar todo</v-btn
+            >
           </div>
           <div class="row">
-            <v-btn class="mx-5 mb-5" color="success" @click="comprar()">comprar</v-btn>
+            <v-btn class="mx-5 mb-5" color="success" @click="comprar()"
+              >comprar</v-btn
+            >
             <h3 class="mt-1 mb-5">Total a pagar: ${{ getTotal() }}</h3>
           </div>
           <div class="row">
@@ -35,35 +45,65 @@
               :error="asientoErr"
             ></v-text-field>
             <v-menu
-              ref="menu"
-              v-model="menu2"
+              ref="menu2"
+              v-model="menu"
               :close-on-content-click="false"
-              :nudge-right="40"
-              :return-value.sync="time"
+              :return-value.sync="fecha_entrega"
               transition="scale-transition"
               offset-y
-              max-width="290px"
               min-width="290px"
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
-                  class="mr-5"
-                  v-model="venta.hora"
-                  :label="
-                    horaErr ? 'Hora no valida' : 'Hora a partir para entregar'
-                  "
-                  :error="horaErr"
+                  v-model="fecha_entrega"
+                  :label="diaErr ? 'Dia no valido' : 'Dia para entregar'"
                   readonly
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-time-picker
-                v-if="menu2"
-                v-model="venta.hora"
-                full-width
-                @click:minute="$refs.menu.save(venta.hora)"
-              ></v-time-picker>
+              <v-date-picker v-model="fecha_entrega" no-title scrollable>
+                <v-spacer></v-spacer>
+                <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                <v-btn
+                  text
+                  color="primary"
+                  @click="$refs.menu2.save(fecha_entrega)"
+                  >OK</v-btn
+                >
+              </v-date-picker>
             </v-menu>
+            <div class="ml-5">
+              <v-menu
+                ref="menu"
+                v-model="menu2"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                :return-value.sync="time"
+                transition="scale-transition"
+                offset-y
+                max-width="290px"
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on }">
+                  <v-text-field
+                    class="mr-5"
+                    v-model="venta.hora"
+                    :label="
+                      horaErr ? 'Hora no valida' : 'Hora a partir para entregar'
+                    "
+                    :error="horaErr"
+                    readonly
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-time-picker
+                  v-if="menu2"
+                  v-model="venta.hora"
+                  full-width
+                  @click:minute="$refs.menu.save(venta.hora)"
+                ></v-time-picker>
+              </v-menu>
+            </div>
           </div>
           <v-textarea
             class="mx-3"
@@ -114,13 +154,16 @@ export default {
     str: "",
     comentarios: "",
     total: 0,
+    fecha_entrega: null,
+    menu: false,
     time: null,
     menu2: false,
     venta: {},
     nombreErr: false,
     salaErr: false,
     asientoErr: false,
-    horaErr: false
+    horaErr: false,
+    diaErr: false
   }),
   methods: {
     getBoletos() {
@@ -135,6 +178,7 @@ export default {
       }
       this.total = this.venta.total;
       this.productos = this.venta.productos;
+      this.fecha_entrega = this.venta.fecha_entrega;
       if (this.venta.boletos.length > 0) {
         this.venta.sala = this.venta.boletos[0].sala;
         this.venta.asiento = this.venta.boletos[0].name;
@@ -158,7 +202,8 @@ export default {
         this.checkNom() &&
         this.checkSala() &&
         this.checkAsiento() &&
-        this.checkHora()
+        this.checkHora() &&
+        this.checkDia()
       ) {
         let fecha = new Date();
         console.log(fecha);
@@ -236,6 +281,15 @@ export default {
       this.horaErr = false;
       if (this.venta.hora === "") {
         this.horaErr = true;
+        return false;
+      } else {
+        return true;
+      }
+    },
+    checkDia() {
+      this.diaErr = false;
+      if (this.venta.fecha_entrega === "") {
+        this.diaErr = true;
         return false;
       } else {
         return true;

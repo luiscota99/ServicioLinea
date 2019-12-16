@@ -99,7 +99,8 @@ export default {
           hora: this.hora,
           name: element.name,
           tipo: this.tipo,
-          precio: this.precio
+          precio: this.precio,
+          dia: this.dia
         };
         arreglo.push(item);
       });
