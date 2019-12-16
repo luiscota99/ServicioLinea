@@ -61,6 +61,7 @@ export default new Vuex.Store({
         total += Number(boleto.precio);
       });
       this.state.venta.total = total;
+      localStorage.setItem("venta", JSON.stringify(this.state.venta));
     },
     addProduct(context, item) {
       if (

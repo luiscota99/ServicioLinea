@@ -18,25 +18,12 @@
                   v-model="user"
                   :error="userErr"
                 ></v-text-field>
-                <v-text-field
-                  @keyup.enter="login"
-                  color="indigo"
-                  :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                  @click:append="show = !show"
-                  id="password"
-                  prepend-icon="mdi-lock"
-                  name="password"
-                  :label="passErr ? 'Contraseña incorrecta' : 'Contraseña'"
-                  :type="show ? 'text' : 'password'"
-                  v-model="pass"
-                  :error="passErr"
-                ></v-text-field>
               </v-form>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn outlined color="primary" dark @click="saltar()">Saltar</v-btn>
-              <v-btn color="primary" dark @click="saltar()">Acceder</v-btn>
+              <v-btn color="primary" dark @click="login()">Acceder</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -46,6 +33,8 @@
 </template>
 
 <script>
+import ObtenerMembresia from "../services/Membresia/ObtenerMembresia";
+
 export default {
   data: () => ({
     show: false,
@@ -57,7 +46,16 @@ export default {
   }),
 
   methods: {
-    async login() {},
+    async login() {
+      let res = await ObtenerMembresia.getMembresia({ id: Number(this.user) });
+      console.log(res.data);
+      if (res.data.statusCode === 500) {
+        this.$swal(res.data.mensaje, "", "warning");
+      } else {
+        localStorage.setItem("sesion", JSON.stringify(res.data));
+        this.$router.push("puntos");
+      }
+    },
     saltar() {
       this.$router.push("pago");
     }

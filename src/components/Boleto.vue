@@ -7,15 +7,13 @@
           contain
           src="https://es.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/core_market/generator/dist/generator/assets/images/websiteQRCode_noFrame.png"
           :aspect-ratio="16 / 9"
-        >
-        </v-img>
+        ></v-img>
         <v-img
           v-else
           contain
           src="https://static8.depositphotos.com/1012407/1010/v/950/depositphotos_10101087-stock-illustration-one-single-cinema-ticket-vector.jpg"
           :aspect-ratio="16 / 9"
-        >
-        </v-img>
+        ></v-img>
         <v-card-text class="pt-4" style="position: relative;">
           <v-btn
             @click="removeBoleto"
@@ -34,7 +32,7 @@
           <v-row no-gutters>
             <v-col sm="8" class="caption">
               Sala:
-              <span class="ml-2"> {{ boleto.sala }}</span>
+              <span class="ml-2">{{ boleto.sala }}</span>
             </v-col>
             <v-col sm="4" class="text-right">
               <div class="caption">{{ boleto.hora }}</div>
@@ -43,7 +41,13 @@
           <v-row no-gutters v-if="view === 'carrito'">
             <v-col sm="8" class="caption">
               Cantidad:
-              <span class="ml-2"> {{ getBoletosCount() }}</span>
+              <span class="ml-2">{{ getBoletosCount() }}</span>
+            </v-col>
+          </v-row>
+          <v-row no-gutters v-if="view === 'boletoComprado'">
+            <v-col sm="8" class="caption">
+              Asiento:
+              <span class="ml-2">{{ boleto.name }}</span>
             </v-col>
           </v-row>
         </v-card-text>

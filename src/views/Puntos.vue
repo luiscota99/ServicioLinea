@@ -2,7 +2,7 @@
   <div>
     <Navbar />
     <v-content>
-      <Login />
+      <Points />
     </v-content>
   </div>
 </template>
@@ -10,13 +10,13 @@
 <script>
 // @ is an alias to /src
 import Navbar from "@/components/Navbar.vue";
-import Login from "@/components/Login.vue";
+import Points from "../components/Points.vue";
 
 export default {
-  name: "iniciarSesion",
+  name: "puntos",
   components: {
     Navbar,
-    Login
+    Points
   },
   data: () => ({
     drawer: null

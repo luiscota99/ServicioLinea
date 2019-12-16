@@ -112,41 +112,43 @@ export default {
             tarjeta_destino: this.cuentaCine,
             monto: venta.total
           };
-          //try {
-          let res = await SolicitarTransferencia.postTransferencia(trans);
-          if (res.status === 200) {
-            venta.numero_transaccion = res.data.data.id;
-            this.$swal("Transaccion realizada exitosamente", "", "success");
-            localStorage.setItem("ventaPagada", JSON.stringify(venta));
-            localStorage.removeItem("venta");
-            await this.postPedido();
-            if (
-              JSON.parse(localStorage.getItem("ventaPagada")).productos.length >
-              0
-            ) {
-              await this.enviarPedido();
-            }
+          try {
+            let res = await SolicitarTransferencia.postTransferencia(trans);
+            if (res.status === 200) {
+              venta.numero_transaccion = res.data.data.id;
+              this.$swal("Transaccion realizada exitosamente", "", "success");
+              localStorage.setItem("ventaPagada", JSON.stringify(venta));
+              localStorage.removeItem("venta");
+              await this.postPedido();
+              if (
+                JSON.parse(localStorage.getItem("ventaPagada")).productos
+                  .length > 0
+              ) {
+                await this.enviarPedido();
+              }
 
-            if (
-              JSON.parse(localStorage.getItem("ventaPagada")).boletos.length > 0
-            ) {
-              await this.postBoletos();
-              await this.postAsientos();
+              if (
+                JSON.parse(localStorage.getItem("ventaPagada")).boletos.length >
+                0
+              ) {
+                await this.postBoletos();
+                await this.postAsientos();
+              }
+              this.$router.push("recibo");
+            } else {
+              this.$swal(
+                "Algo salio mal favor de volverlo a intentar",
+                "",
+                "warning"
+              );
             }
-          } else {
+          } catch {
             this.$swal(
               "Algo salio mal favor de volverlo a intentar",
               "",
               "warning"
             );
           }
-          /*} catch {
-            this.$swal(
-              "Algo salio mal favor de volverlo a intentar",
-              "",
-              "warning"
-            );
-          }*/
         }
       }
     },
