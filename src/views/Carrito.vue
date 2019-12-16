@@ -5,22 +5,12 @@
       <v-card class="mx-5 my-5">
         <v-form>
           <div class="row">
-            <v-text-field
-              class="mx-5"
-              v-model="str"
-              label="Nombre del producto"
-            ></v-text-field>
-            <v-btn class="mr-5 my-5" color="primary" @click="buscar(str)"
-              >buscar</v-btn
-            >
-            <v-btn class="mr-5 my-5" outlined color="primary" @click="todo()"
-              >mostrar todo</v-btn
-            >
+            <v-text-field class="mx-5" v-model="str" label="Nombre del producto"></v-text-field>
+            <v-btn class="mr-5 my-5" color="primary" @click="buscar(str)">buscar</v-btn>
+            <v-btn class="mr-5 my-5" outlined color="primary" @click="todo()">mostrar todo</v-btn>
           </div>
           <div class="row">
-            <v-btn class="mx-5 mb-5" color="success" @click="comprar()"
-              >comprar</v-btn
-            >
+            <v-btn class="mx-5 mb-5" color="success" @click="comprar()">comprar</v-btn>
             <h3 class="mt-1 mb-5">Total a pagar: ${{ getTotal() }}</h3>
           </div>
           <div class="row">
@@ -48,28 +38,24 @@
               ref="menu2"
               v-model="menu"
               :close-on-content-click="false"
-              :return-value.sync="fecha_entrega"
+              :return-value.sync="venta.fecha_entrega"
               transition="scale-transition"
               offset-y
               min-width="290px"
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
-                  v-model="fecha_entrega"
+                  v-model="venta.fecha_entrega"
                   :label="diaErr ? 'Dia no valido' : 'Dia para entregar'"
+                  :error="diaErr"
                   readonly
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-date-picker v-model="fecha_entrega" no-title scrollable>
+              <v-date-picker v-model="venta.fecha_entrega" no-title scrollable>
                 <v-spacer></v-spacer>
                 <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                <v-btn
-                  text
-                  color="primary"
-                  @click="$refs.menu2.save(fecha_entrega)"
-                  >OK</v-btn
-                >
+                <v-btn text color="primary" @click="$refs.menu2.save(venta.fecha_entrega)">OK</v-btn>
               </v-date-picker>
             </v-menu>
             <div class="ml-5">
