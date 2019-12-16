@@ -53,6 +53,11 @@ export default {
         this.$swal(res.data.mensaje, "", "warning");
       } else {
         localStorage.setItem("sesion", JSON.stringify(res.data));
+        let venta = JSON.parse(localStorage.getItem("venta"));
+        venta.puntos =
+          venta.total *
+          (Number(JSON.parse(localStorage.getItem("sesion")).porcentaje) / 100);
+        localStorage.setItem("venta", JSON.stringify(venta));
         this.$router.push("puntos");
       }
     },

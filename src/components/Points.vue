@@ -5,39 +5,27 @@
         <v-col>
           <v-card class="elevation-12">
             <v-toolbar dark color="indigo">
-              <v-toolbar-title>Ticket {{ ticket.numero_venta }}</v-toolbar-title>
+              <v-toolbar-title>Cantidad de Puntos: {{this.sesion.puntos}}</v-toolbar-title>
             </v-toolbar>
             <v-list-item>
-              <v-list-item-title>Transaccion No. {{ticket.numero_transaccion}}</v-list-item-title>
+              <v-list-item-title>Puntos a Generar: {{(Number(this.sesion.porcentaje)/100) * this.venta.total}}</v-list-item-title>
             </v-list-item>
-            <v-list-item>
-              <v-list-item-title>
-                Para entregar el {{ ticket.fecha }} a partir de las
-                {{ ticket.hora }}
-              </v-list-item-title>
-            </v-list-item>
-            <v-list-item v-for="(producto, index) in this.productos" :key="index">
-              <v-list-item-title>
-                {{ producto.quantity }}
-                {{ producto.nombre }}
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                ${{
-                producto.quantity * producto.amount
-                }}
-              </v-list-item-subtitle>
-            </v-list-item>
-            <v-list-item v-for="(boleto, index) in this.boletos" :key="index">
-              <v-list-item-title>
-                Boleto para: {{ boleto.quantity }}
-                {{ boleto.pelicula }}
-              </v-list-item-title>
-              <v-list-item-subtitle>${{ boleto.precio }}</v-list-item-subtitle>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title>Total pagado: {{ ticket.total }}$</v-list-item-title>
-              <v-list-item-subtitle>Estado: {{ ticket.estado }}</v-list-item-subtitle>
-            </v-list-item>
+            <v-card-text>
+              <v-form autocomplete="off">
+                <v-text-field
+                  color="indigo"
+                  name="points"
+                  :label="pointsErr ? err : 'Cantidad de puntos a utilizar'"
+                  v-model="points"
+                  :error="pointsErr"
+                ></v-text-field>
+              </v-form>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn outlined color="primary" dark @click="saltar()">Saltar</v-btn>
+              <v-btn color="primary" dark @click="usarPuntos()">Utilizar</v-btn>
+            </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
@@ -49,7 +37,11 @@
 import ObtenerTicket from "@/services/BackEnd/VentaService";
 export default {
   data: () => ({
-    sesion: {}
+    sesion: {},
+    points: "",
+    err: "",
+    pointsErr: false,
+    venta: {}
   }),
 
   methods: {
@@ -60,6 +52,41 @@ export default {
       if (JSON.parse(localStorage.getItem("sesion"))) {
         this.sesion = JSON.parse(localStorage.getItem("sesion"));
       }
+      if (JSON.parse(localStorage.getItem("venta"))) {
+        this.venta = JSON.parse(localStorage.getItem("venta"));
+      }
+      console.log(this.sesion);
+    },
+    saltar() {
+      this.$router.push("pago");
+    },
+
+    usarPuntos() {
+      if (this.validarPuntos()) {
+        localStorage.setItem("puntos", this.points);
+        this.$router.push("pago");
+      }
+    },
+
+    validarPuntos() {
+      this.pointsErr = false;
+      if (
+        this.points === "" ||
+        !Number(this.points) ||
+        Number(this.points) > this.sesion.puntos ||
+        Number(this.points) <= 0
+      ) {
+        this.pointsErr = true;
+        this.err = "Cantidad no valida";
+        return false;
+      }
+      if (Number(this.points) >= this.venta.total) {
+        this.pointsErr = true;
+        this.err =
+          "La cantidad de puntos no puede ser igual o exceder el total a pagar";
+        return false;
+      }
+      return true;
     }
   },
   beforeMount() {

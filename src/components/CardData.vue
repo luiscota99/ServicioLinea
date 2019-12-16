@@ -77,6 +77,7 @@ import EnviarPedido from "@/services/ServicioSalas/EnviarPedido";
 import VentaService from "../services/BackEnd/VentaService";
 import Boleto from "../services/Taquilla/Boleto";
 import Venta from "../services/Taquilla/Venta";
+import ObtenerMembresia from "../services/Membresia/ObtenerMembresia";
 
 export default {
   data: () => ({
@@ -105,22 +106,33 @@ export default {
       ) {
         if (JSON.parse(localStorage.getItem("venta"))) {
           let venta = JSON.parse(localStorage.getItem("venta"));
+          let puntos = 0;
+          if (localStorage.getItem("puntos"))
+            puntos = localStorage.getItem("puntos");
           let trans = {
             tarjeta_origen: this.user,
             fecha_vencimiento: this.mes + "/" + this.anio,
             cvv: this.cvv,
             tarjeta_destino: this.cuentaCine,
-            monto: venta.total
+            monto: venta.total - puntos
           };
           try {
             let res = await SolicitarTransferencia.postTransferencia(trans);
             if (res.status === 200) {
               venta.numero_transaccion = res.data.data.id;
+              if (JSON.parse(localStorage.getItem("sesion"))) {
+                await this.generarPuntos();
+                localStorage.removeItem("sesion");
+              }
+              if (localStorage.getItem("puntos")) {
+                await this.eliminarPuntos();
+                localStorage.removeItem("puntos");
+              }
               this.$swal("Transaccion realizada exitosamente", "", "success");
               localStorage.setItem("ventaPagada", JSON.stringify(venta));
               localStorage.removeItem("venta");
-              await this.postPedido();
-              if (
+              //await this.postPedido();
+              /*if (
                 JSON.parse(localStorage.getItem("ventaPagada")).productos
                   .length > 0
               ) {
@@ -134,7 +146,7 @@ export default {
                 await this.postBoletos();
                 await this.postAsientos();
               }
-              this.$router.push("recibo");
+              this.$router.push("recibo");*/
             } else {
               this.$swal(
                 "Algo salio mal favor de volverlo a intentar",
@@ -151,6 +163,26 @@ export default {
           }
         }
       }
+    },
+
+    async generarPuntos() {
+      let puntos = {
+        Id_Membresia: JSON.parse(localStorage.getItem("sesion")).id_Membresia,
+        Id_Punto_Venta: 4,
+        Puntos_generados: JSON.parse(localStorage.getItem("venta")).puntos
+      };
+      let res = await ObtenerMembresia.generatePoints(puntos);
+      console.log(res);
+    },
+
+    async eliminarPuntos() {
+      let puntos = {
+        Id_Membresia: JSON.parse(localStorage.getItem("sesion")).id_Membresia,
+        Id_Punto_Venta: 4,
+        Puntos_generados: JSON.parse(localStorage.getItem("puntos")) * -1
+      };
+      let res = await ObtenerMembresia.generatePoints(puntos);
+      console.log(res);
     },
 
     async postPedido() {
