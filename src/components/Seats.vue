@@ -66,23 +66,23 @@ export default {
     sala: "",
     hora: "",
     precio: 0,
-    tipo: ""
+    tipo: "",
+    dia: ""
   }),
 
   methods: {
     async getAsientos() {
+      console.log();
       this.pelicula = this.$route.params.pelicula;
       this.sala = this.$route.params.sala;
       this.hora = this.$route.params.horario;
       this.precio = this.$route.params.precio;
       this.tipo = this.$route.params.tipo;
+      this.dia = this.$route.params.dia;
+      this.dia = this.dia.replace(new RegExp("-", "g"), "/");
       this.cantidadBoletos = localStorage.getItem("cantidadBoletos");
-      let currentDate = new Date();
-      let currentDateWithFormat = new Date()
-        .toJSON()
-        .slice(0, 10)
-        .replace(/-/g, "/");
-      let horario = `${currentDateWithFormat} ${this.$route.params.horario}`;
+      let horario = `${this.dia} ${this.hora}`;
+      console.log(horario);
       let response = await ObtenerAsientos.getAsientos({
         idSala: this.$route.params.sala,
         Horario: horario

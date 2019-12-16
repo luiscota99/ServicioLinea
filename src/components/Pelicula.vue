@@ -106,6 +106,7 @@ export default {
   }),
   methods: {
     getAsientos() {
+      console.log(this.date);
       let tipo;
       switch (this.precio) {
         case 50:
@@ -127,7 +128,8 @@ export default {
             horario: this.hora,
             pelicula: this.pelicula.pelicula,
             precio: this.precio,
-            tipo: tipo
+            tipo: tipo,
+            dia: this.date
           }
         });
       }
@@ -166,7 +168,8 @@ export default {
   },
   beforeMount() {},
   props: {
-    pelicula: Object
+    pelicula: Object,
+    date: String
   }
 };
 </script>

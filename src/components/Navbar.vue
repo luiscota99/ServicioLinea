@@ -80,7 +80,7 @@ export default {
   methods: {
     compra() {
       if (JSON.parse(localStorage.getItem("venta"))) {
-        this.$router.push("carrito");
+        this.$router.push("/carrito").catch(err => {});
       } else {
         this.$swal("No hay productos en el carrito", "", "warning");
       }

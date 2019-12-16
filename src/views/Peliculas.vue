@@ -17,6 +17,37 @@
               >mostrar todo</v-btn
             >
           </div>
+          <div class="row mx-1">
+            <v-col cols="12" sm="6" md="4">
+              <v-menu
+                ref="menu"
+                v-model="menu"
+                :close-on-content-click="false"
+                :return-value.sync="date"
+                transition="scale-transition"
+                offset-y
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on }">
+                  <v-text-field
+                    v-model="date"
+                    label="Seleccionar dia"
+                    readonly
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker v-model="date" no-title scrollable>
+                  <v-spacer></v-spacer>
+                  <v-btn text color="primary" @click="menu = false"
+                    >Cancel</v-btn
+                  >
+                  <v-btn text color="primary" @click="$refs.menu.save(date)"
+                    >OK</v-btn
+                  >
+                </v-date-picker>
+              </v-menu>
+            </v-col>
+          </div>
         </v-form>
       </v-card>
       <v-layout row wrap class="mx-5" v-if="loadedProductos == 1">
@@ -25,6 +56,7 @@
             v-for="(pelicula, index) in busqueda"
             :key="index"
             :pelicula="pelicula"
+            :date="date"
           />
         </template>
       </v-layout>
@@ -55,7 +87,9 @@ export default {
     busqueda: [],
     str: "",
     repeat: 4,
-    loadedProductos: 0
+    loadedProductos: 0,
+    date: new Date().toISOString().substr(0, 10),
+    menu: false
   }),
   methods: {
     async getPeliculas() {
@@ -63,12 +97,13 @@ export default {
       this.peliculas = response.data;
       this.busqueda = Object.assign([], this.peliculas);
       this.loadedProductos = 1;
+      console.log(this.peliculas);
     },
     buscar(str) {
       str = str.toLowerCase();
       this.busqueda = [];
       this.peliculas.forEach(pelicula => {
-        if (producto.nombre.toLowerCase().includes(str))
+        if (pelicula.pelicula.toLowerCase().includes(str))
           this.busqueda.push(pelicula);
       });
     },

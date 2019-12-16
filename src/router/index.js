@@ -47,7 +47,7 @@ const routes = [
   },
   {
     path:
-      "/sala/:sala/horario/:horario/pelicula/:pelicula/precio/:precio/tipo/:tipo",
+      "/sala/:sala/horario/:horario/pelicula/:pelicula/precio/:precio/tipo/:tipo/dia/:dia",
     name: "asientos",
     component: Asientos
   },
