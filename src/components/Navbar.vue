@@ -34,6 +34,14 @@
             <v-list-item-title>Recibo</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item v-if="puntos" to="/puntos">
+          <v-list-item-action>
+            <v-icon>mdi-album</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Puntos</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -45,14 +53,7 @@
         <template v-slot:badge>
           <span v-if="getProductos > 0">{{ getProductos }}</span>
         </template>
-        <v-btn
-          title="Proceder con la compra"
-          fab
-          dark
-          small
-          color="primary"
-          @click="compra()"
-        >
+        <v-btn title="Proceder con la compra" fab dark small color="primary" @click="compra()">
           <v-icon dark>mdi-cart</v-icon>
         </v-btn>
       </v-badge>
@@ -83,6 +84,14 @@ export default {
         this.$router.push("carrito");
       } else {
         this.$swal("No hay productos en el carrito", "", "warning");
+      }
+    },
+
+    checkIfPoints() {
+      if (JSON.parse(localStorage.getItem("sesion"))) {
+        this.puntos = true;
+      } else {
+        this.puntos = false;
       }
     },
 
@@ -194,7 +203,12 @@ export default {
 
   data: () => ({
     drawer: null,
-    cuantity: 0
-  })
+    cuantity: 0,
+    puntos: false
+  }),
+
+  beforeMount() {
+    this.checkIfPoints();
+  }
 };
 </script>
