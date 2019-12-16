@@ -47,6 +47,9 @@ export default new Vuex.Store({
     },
     AGREGARCARRITO(state, obj) {
       state.venta = Object.assign({}, obj);
+    },
+    AGREGARFECHAENTREGA(state, item) {
+      state.venta.fecha_entrega = item;
     }
   },
   actions: {
@@ -111,6 +114,9 @@ export default new Vuex.Store({
       });
       this.state.venta.total = total;
       localStorage.setItem("venta", JSON.stringify(this.state.venta));
+    },
+    addFecha(context, item) {
+      context.commit("AGREGARFECHAENTREGA", item);
     },
 
     setCarrito(context, obj) {

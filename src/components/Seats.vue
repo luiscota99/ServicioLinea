@@ -100,11 +100,13 @@ export default {
           name: element.name,
           tipo: this.tipo,
           precio: this.precio,
-          dia: this.dia
         };
         arreglo.push(item);
       });
+      this.$store.dispatch("addFecha", this.dia);
+
       this.$store.dispatch("addBoleto", arreglo);
+
       this.$router.push("/productos").catch(err => {});
     }
   },
