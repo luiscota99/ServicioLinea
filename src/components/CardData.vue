@@ -134,6 +134,7 @@ export default {
                 await this.postBoletos();
                 await this.postAsientos();
               }
+              this.$router.push("recibo");
             } else {
               this.$swal(
                 "Algo salio mal favor de volverlo a intentar",
@@ -176,7 +177,8 @@ export default {
       if (JSON.parse(localStorage.getItem("ventaPagada"))) {
         let ven = JSON.parse(localStorage.getItem("ventaPagada"));
         let newFecha = ven.fecha.replace("-", "/");
-        newFecha = ven.fecha.replace("-", "/");
+        newFecha = newFecha.replace("-", "/");
+        console.log(newFecha);
         let venta = {
           numero_venta: ven.numero_venta,
           codigo_cliente: ven.codigo_cliente,

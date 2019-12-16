@@ -49,9 +49,7 @@
 import ObtenerTicket from "@/services/BackEnd/VentaService";
 export default {
   data: () => ({
-    ticket: {},
-    productos: [],
-    boletos: []
+    sesion: {}
   }),
 
   methods: {
@@ -59,15 +57,9 @@ export default {
       this.$swal("Hello Vue world!!!");
     },
     cargarDatos() {
-      if (JSON.parse(localStorage.getItem("ventaPagada"))) {
-        this.ticket = JSON.parse(localStorage.getItem("ventaPagada"));
-        this.productos = JSON.parse(
-          localStorage.getItem("ventaPagada")
-        ).productos;
-        this.boletos = JSON.parse(localStorage.getItem("ventaPagada")).boletos;
+      if (JSON.parse(localStorage.getItem("sesion"))) {
+        this.sesion = JSON.parse(localStorage.getItem("sesion"));
       }
-      let response = ObtenerTicket.getVenta(this.ticket.numero_venta);
-      console.log(response);
     }
   },
   beforeMount() {

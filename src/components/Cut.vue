@@ -64,7 +64,6 @@ export default {
       if (this.checkUser() && this.checkPass()) {
         //let fecha = { fecha: "2019-02-10" };
         let res = await VentaService.getVentas();
-        console.log(res.data);
         let fecha = new Date(res.data.date);
         let day = "";
         let month = "";
@@ -83,14 +82,16 @@ export default {
 
         fecha = fecha.getFullYear() + "-" + month + "-" + day + "T00:00:00";
 
-        /*let venta = {
+        let venta = {
           date: fecha,
           departmentKey: res.data.departmentKey,
           productList: res.data.productList,
           total: res.data.total
-        };*/
+        };
 
-        let venta = {
+        console.log(venta);
+
+        /*let venta = {
           departmentKey: 4,
           date: "2019-11-12T00:00:00",
           productList: [
@@ -98,13 +99,13 @@ export default {
               productId: 32,
               name: "Palomitas",
               quantity: 3,
-              amount: 230.0
+              amount: 230
             },
             {
               productId: 48,
               name: "Gomitas",
               quantity: 3,
-              amount: 100.5
+              amount: 100
             },
             {
               productId: 69,
@@ -131,13 +132,22 @@ export default {
               amount: 20.0
             }
           ],
-          total: 720.0
-        };
+          total: 720
+        };*/
 
-        console.log(venta);
+        //console.log(venta);
 
         let response = await EnviarVentas.addVentas(venta);
         console.log(response);
+        if (res.status === 200) {
+          this.$swal("Se realizo el corte correctamente", "", "success");
+        } else {
+          this.$swal(
+            "Algo salio mal favor de volverlo a intentar",
+            "",
+            "warning"
+          );
+        }
       }
     },
 

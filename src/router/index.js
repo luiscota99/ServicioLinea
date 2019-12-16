@@ -10,6 +10,7 @@ import Asientos from "../views/Asientos.vue";
 import Corte from "../views/Corte.vue";
 import Boletos from "../views/Boletos.vue";
 import Recibo from "../views/Recibo.vue";
+import Puntos from "../views/Puntos.vue";
 
 Vue.use(VueRouter);
 
@@ -17,7 +18,7 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: Home
+    component: Peliculas
   },
   {
     path: "/productos",
@@ -64,6 +65,11 @@ const routes = [
     path: "/recibo",
     name: "recibo",
     component: Recibo
+  },
+  {
+    path: "/puntos",
+    name: "puntos",
+    component: Puntos
   }
 ];
 
